@@ -92,6 +92,84 @@ async function getUserByAge(someAge) {
     }
 }
 
+
+
+//FUNCTION FOR RETURNING USERS BETWEEN A RANGE
+async function getUsersByAgeRange(minAge, maxAge) {
+    try{
+        const users =  await User.find({
+            age: {
+                $gte: minAge,
+                $lte: maxAge
+            }
+        })
+        console.log(`Users with age between ${minAge} and ${maxAge}:`);
+        if(users.length !== 0) {
+            let userNumber = 1;
+            for(const user of users) {
+                console.log(`User ${userNumber}: \n ${user.name} \n ${user.email} \n ${user.age}\n`);
+                userNumber++;
+            }
+        } else {
+            console.log(`No users found with age between ${minAge} and ${maxAge}`);
+        }
+    }catch(error) {
+        console.error("Error fetching users by age range: ", error.message);
+    }
+}
+
+
+
+//FUNCTION FOR GETTING USERS BY AGE GROUPS:
+async function getUsersByAgeGroups(age1, age2) {
+    try{
+        const users = await User.find({
+            $or: [
+                {age: {$lt: age1}},
+                {age: {$gt: age2}}
+            ]
+        });
+        if(users.length !== 0) {
+            let userNumber = 1;
+            for(const user of users) {
+                console.log(`User ${userNumber}: \n ${user.name} \n ${user.email} \n ${user.age}\n`);
+                userNumber++;
+            }
+        } else {
+            console.log(`No users found from age groups less than ${age1} and greater than ${age2}`);
+        }
+    }catch(error) {
+        console.error("Error fetching users by age groups: ", error.message);
+    }
+}
+
+
+
+//FUNCTION FOR GETTING USERS OF SPECIFIC AGE GROUPS: 
+async function getUsersOfSpecificAges(ages) {
+    try{
+        const users = await User.find({
+            age:{
+                $in: ages
+            }
+        })
+        if(users.length !== 0){
+            let userNumber = 1;
+            for(const user of users) {
+                console.log(`User ${userNumber} : \n ${user.name} \n ${user.email} \n ${user.age}\n`);
+                userNumber++;
+            }
+        }else{
+            console.log(`No users found with ages ${age1}, ${age2}, ${age3}`);
+        }
+    }catch(error) {
+        console.error("Error fetching users of specific age groups: ", error.message);
+    }
+}
+
+
+
+
 //MONGODB CONNECTION
 async function start() {
     try {
@@ -99,7 +177,7 @@ async function start() {
 
         console.log("MongoDB connected!");
 
-        getUserByAge(20);
+        getUsersOfSpecificAges([18, 25, 35, 45, 72]);
 
     } catch (error) {
         return console.error("MongoDB Connection Error:", error);
