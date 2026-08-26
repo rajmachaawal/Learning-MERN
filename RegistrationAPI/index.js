@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 //USER CREATING FUNCTION
 async function createUser(userName, userEmail, userAge) {
     try {
-        const user = newUser({
+        const user = new User({
             name: userName,
             email: userEmail,
             age: userAge
@@ -16,7 +16,7 @@ async function createUser(userName, userEmail, userAge) {
         console.log(`User ${savedUser.name} created successfully!`);
         console.log(`User ID: ${savedUser._id}!`);
     }catch(error){
-        console.error("Error creating user: ", error.message);
+        console.error("Error creating user: ", error);
     }
 
 }
@@ -220,7 +220,7 @@ async function getUsersNotAboveAge(someAge) {
 
 
 //FUNCTION RETURNING USERS FROM A AGE RANGE:
-async function getUsersWithinNormalAgeRange(age1, age2) {
+async function getUsersWithinAgeRange(age1, age2) {
     try{
         const users = await User.find({
             $nor: [
@@ -245,6 +245,87 @@ async function getUsersWithinNormalAgeRange(age1, age2) {
 
 
 
+//FUNCTION RETURNING USERS NOT FROM A SPECIFIC AGE!
+async function getUsersNotOfSpecificAges(ages) {
+    try{
+        const users = await User.find({
+            age:{
+                $nin: ages
+            }
+        })
+        if(users.length !== 0) {
+            let userNumber = 1;
+            for(const user of users) {
+                console.log(`User ${userNumber}: \n ${user.name} \n ${user.email} \n ${user.age}\n`);
+                userNumber++;
+            }
+        }else{
+            console.log(`No users found from ages apart from ${ages}`);
+        }       
+    }catch(error) {
+        console.log(`Error finding users: `,error.message);
+    }
+}
+
+
+
+
+
+//FUNCTION FINDING USERS THAT DONT HAVE AGE FIELD:
+async function getUsersWithoutAge() {
+    try{
+        const users = await User.find({
+            age:{
+                $exists: false
+            }
+        })
+        if(users.length!==0){
+            let userNumber = 1;
+            for(const user of users) {
+                console.log(`User ${userNumber}: \n ${user.name} \n ${user.email} \n ${user.age}\n`);
+                userNumber++;
+            }        
+        }else{
+            console.log(`No users found without an age field!`);
+        }
+    }catch(error) {
+        console.error(`Error finding users: `,error)
+    }
+}
+
+
+
+
+//FUNCTION RETURNING BASED ON REGEX:
+// "^a"        starts with a
+// "a$"        ends with a
+// "a"         contains a
+// "^a.*n$"    starts with a and ends with n
+async function getUsersByRegex(regex,caseSensitivity) {
+    try{
+        const users = await User.find({
+            name:{
+                $regex: regex,
+                $options: caseSensitivity
+            }
+        })
+        if(users.length!==0){
+            let userNumber = 1;
+            for(const user of users) {
+                console.log(`User ${userNumber}: \n ${user.name} \n ${user.email} \n ${user.age}\n`);
+                userNumber++;
+            }        
+        }else{
+            console.log(`No users found starting with ${regex} or ${regex.charAt(0).toUpperCase()}`);
+        }
+    }catch(error){
+        console.error(`Error finding users: `,error.message)
+    }
+}
+
+
+
+
 
 //MONGODB CONNECTION
 async function start() {
@@ -253,10 +334,10 @@ async function start() {
 
         console.log("MongoDB connected!");
 
-        getUsersWithinNormalAgeRange(18,60);
+        getUsersByRegex('^a','i');
 
     } catch (error) {
-        return console.error("MongoDB Connection Error:", error);
+        return console.error("MongoDB Connection Error:", error.message);
     }
 }
 start();
