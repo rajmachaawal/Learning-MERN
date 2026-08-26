@@ -168,6 +168,82 @@ async function getUsersOfSpecificAges(ages) {
 }
 
 
+//FUNCTION RETURNING USERS WITH SPECIFIC AGE AND NAME 
+async function getUsersByAgeAndName(someAge, someName) {
+    try{
+        const users = await User.find({
+            $and: [
+                {age: {$gt: someAge}},
+                {name: someName}
+            ]
+        })
+        if(users.length !== 0) {
+            let userNumber = 1;
+            for(const user of users) {
+                console.log(`User ${userNumber}: \n ${user.name} \n ${user.email} \n ${user.age}\n`);
+                userNumber++;
+            }
+        }else{
+            console.log(`No users found with age greater than ${someAge} and name ${someName}`);
+        }
+    }catch(error) {
+        console.error("Error fetching users by age and name: ",error.message);
+    }
+}
+
+
+
+//FUNCTION RETURNING USERS NOT BELONGING FROM SPECIFIC AGE!
+async function getUsersNotAboveAge(someAge) {
+    try{
+        const users = await User.find({
+            age: {
+                $not: {
+                    $gt: someAge
+                }
+            }
+        })
+        if(users.length !== 0) {
+            let userNumber = 1;
+            for(const user of users) {
+                console.log(`User ${userNumber}: \n ${user.name} \n ${user.email} \n ${user.age}\n`);
+                userNumber++;
+            }
+        }else{
+            console.log(`No users found with age not greater than ${someAge}!`);
+        }
+    }catch(error) {
+        console.error("Error fetching users by age: ",error.message);
+    }
+}
+
+
+
+//FUNCTION RETURNING USERS FROM A AGE RANGE:
+async function getUsersWithinNormalAgeRange(age1, age2) {
+    try{
+        const users = await User.find({
+            $nor: [
+                {age: { $lt: age1}},
+                {age: { $gt: age2}}
+            ]
+        })
+        if(users.length !== 0) {
+            let userNumber = 1;
+            for(const user of users) {
+                console.log(`User ${userNumber}: \n ${user.name} \n ${user.email} \n ${user.age}\n`);
+                userNumber++;
+            }
+        }else{
+            console.log(`No users found within range of age ${age1} to ${age2}!`);
+        }
+    }catch(error) {
+        console.error("Error fetching users within age range: ",error.message);
+    }
+}
+
+
+
 
 
 //MONGODB CONNECTION
@@ -177,7 +253,7 @@ async function start() {
 
         console.log("MongoDB connected!");
 
-        getUsersOfSpecificAges([18, 25, 35, 45, 72]);
+        getUsersWithinNormalAgeRange(18,60);
 
     } catch (error) {
         return console.error("MongoDB Connection Error:", error);
