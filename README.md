@@ -18,3 +18,8 @@ Since last session, I have learned about how to create a record of any entity in
 # 26-08-2026
 
 I have understood how logical operators work in MongoDB till now! my goal is to understand MongoDB till schema refinement and query formation that will help in adding some basic features to my first individual project! that I am eyeing to create! and currently I am refining my schema framing abilities! in my last session I designed my user schema! next onboard is Express.js! TILL THEN PEACE OUT!
+
+# 30-08-2026
+
+With today's session, I learnt about how express is a great framework of Node.js, and how much it eases backend development and routing!
+Currently, I know how to setup an express server and what HTTP requests actually are! HTTP status codes, req and res headers in express server, and how to retrieve data from req objects! These are the checkedboxes in my Express journey till now! AND YEAH! I also wrote a scalable field validation layer for my registration API! Next I will design another layer using Express! TILL THEN PEACE OUT!
