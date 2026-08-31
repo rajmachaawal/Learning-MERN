@@ -1,6 +1,10 @@
 # Learning-Node.js
 Hey, Welcome to my Node.js repository. Here, I will be making structured Code Snippets while learning how to use different npm modules to create efficient and Quality Tested APIs!
 
+# 31-08-2026
+
+In today's session, I understood about format validation layer, however date is validated twice, once for its format and twice for its validity! I will get it checked twice later!
+
 # 30-08-2026
 
 With today's session, I learnt about how express is a great framework of Node.js, and how much it eases backend development and routing!

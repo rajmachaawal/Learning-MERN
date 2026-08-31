@@ -3,9 +3,6 @@ const express =  require("express");
 const expApp = express();
 
 
-
-
-
 //EXPRESS MIDDLEWARE:
 expApp.use(express.json());
 
@@ -127,10 +124,46 @@ expApp.post('/api/auth/register',(req, res) => {
                 "status":"Bad Request"
             }) 
         }else{
-            res.status(201).json({
-                "message":"User created successfully",
-                "status":"Created"
-            })
+            //FORMAT VALIDATION AND ERROR COLLECTION:
+            const errors = [];
+            const errorTypes = {
+                username:"Invalid Username Format",
+                firstName:"Invalid First Name",
+                lastName:"Invalid First Name",
+                email:"Invalid Email Format",
+                dateOfBirth:"Invalid Date Format",
+                password:"Invalid Password Format"
+            }
+            const formatRules = {
+                username:/^[A-Za-z][A-Za-z0-9_]{2,19}$/,
+                firstName: /^[\p{L}]+(?:[ '-][\p{L}]+)*$/u,
+                lastName: /^[\p{L}]+(?:[ '-][\p{L}]+)*$/u,
+                email:/^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                dateOfBirth: /^\d{4}-\d{2}-\d{2}$/,
+                password: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9\s])[^\s]{8,64}$/
+            }
+
+            //THIS IS ITERATION OVER OBJECT's PROPERTIES:
+            for(const [field, rule] of Object.entries(formatRules)){
+               if(!rule.test(cleanedData[field])){
+                errors.push(errorTypes[field]);
+               } 
+            }
+
+            if(errors.length > 0){
+                res.status(400).json({
+                    message: "Validation Failed",
+                    status: "Bad Request",
+                    errors: `${errors}`
+                })
+            }else{
+                res.status(201).json({
+                    "message": "Validation Succeeded",
+                    status: "Created"
+                })
+            }
+            
+
         }
     }
 
