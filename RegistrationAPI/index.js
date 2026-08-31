@@ -3,6 +3,8 @@ const User = require('./Models/user')
 const mongoose = require("mongoose");
 
 
+//<---------------------------------------------------MONGODB SECTION------------------------------------------------------------->
+
 
 //USER CREATING FUNCTION
 async function createUser(userName, userEmail, userAge) {
@@ -323,21 +325,81 @@ async function getUsersByRegex(regex,caseSensitivity) {
     }
 }
 
+//CAUTION: FUNCTION FOR DELETING ALL USERS
+async function resetUserCollection() {
+    try {
+        await User.collection.drop();
+        console.log("User collection dropped successfully.");
+    } catch (error) {
+        console.error("Error dropping user collection:", error.message);
+    }
+}
 
 
+//DATABASE SAMPLE POPULATION FUNCTION:
+async function populateSampleUsers() {
+    try {
+        const sampleUsers = [
+            {
+                username: "lucky_20",
+                firstName: "Lucky",
+                lastName: "Sharma",
+                email: "lucky.sharma@example.com",
+                dateOfBirth: "2005-03-12",
+                passwordHash: "sample_hash_lucky"
+            },
+            {
+                username: "rajma_dev",
+                firstName: "Rajma",
+                lastName: "Verma",
+                email: "rajma.verma@example.com",
+                dateOfBirth: "2004-07-25",
+                passwordHash: "sample_hash_rajma"
+            },
+            {
+                username: "kabir_25",
+                firstName: "Kabir",
+                lastName: "Singh",
+                email: "kabir.singh@example.com",
+                dateOfBirth: "2001-11-08",
+                passwordHash: "sample_hash_kabir"
+            },
+            {
+                username: "ananya30",
+                firstName: "Ananya",
+                lastName: "Mehta",
+                email: "ananya.mehta@example.com",
+                dateOfBirth: "1996-05-19",
+                passwordHash: "sample_hash_ananya"
+            },
+            {
+                username: "rohan_dev",
+                firstName: "Rohan",
+                lastName: "Yadav",
+                email: "rohan.yadav@example.com",
+                dateOfBirth: "2003-09-30",
+                passwordHash: "sample_hash_rohan"
+            }
+        ];
+
+        await User.insertMany(sampleUsers);
+
+        console.log("Sample users inserted successfully.");
+    } catch (error) {
+        console.error("Error populating users:", error.message);
+    }
+}
 
 
 //MONGODB CONNECTION
-async function start() {
+async function startServer() {
     try {
         await mongoose.connect(process.env.MONGODB_URI);
-
         console.log("MongoDB connected!");
-
-        getUsersByRegex('^a','i');
+        
 
     } catch (error) {
-        return console.error("MongoDB Connection Error:", error.message);
+        return console.error("Failed to start server:", error.message);
     }
 }
-start();
+startServer();

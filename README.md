@@ -3,7 +3,7 @@ Hey, Welcome to my Node.js repository. Here, I will be making structured Code Sn
 
 # 31-08-2026
 
-In today's session, I understood about format validation layer, however date is validated twice, once for its format and twice for its validity! I will get it checked twice later!
+In today's session, I understood about format validation layer, however date is validated twice, once for its format and twice for its validity! I will get it checked twice later! and with this our BUSINESS LOGIC BEGAN, starting off with username uniqueness, tested using sample data in our collections! though an error occured because of the previous MONGODB learning sessions, they altered the way MONGODB indexes were supposed to function! I meticulously dropped the incorrect collection! In the next session, I will be applying the business logic to all other fields as well and make it scalable too! TILL THEN PEACE OUT!
 
 # 30-08-2026
 
