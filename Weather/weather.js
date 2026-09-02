@@ -18,7 +18,7 @@ async function getWeather() {
 
     const data = await response.json();
 
-    console.log(`Here is the weather information for ${city}, ${data.location.country}`);
+    console.log(`Here is the weather information for ${city}, ${data.location.region}, ${data.location.country}`);
     console.log(`Current temperature in ${data.location.name} : ${data.current.temperature} deg Cel`);
     console.log(`Weather : ${data.current.weather_descriptions[0]}`);
     console.log(`Humidity : ${data.current.humidity}%`);
@@ -27,5 +27,3 @@ async function getWeather() {
 }
 
 getWeather();
-
-export default getWeather;

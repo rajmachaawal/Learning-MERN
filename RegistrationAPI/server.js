@@ -125,7 +125,7 @@ expApp.post('/api/auth/register', async (req, res) => {
             const errorTypes = {
                 username:"Invalid Username Format",
                 firstName:"Invalid First Name",
-                lastName:"Invalid First Name",
+                lastName:"Invalid Last Name",
                 email:"Invalid Email Format",
                 dateOfBirth:"Invalid Date Format",
                 password:"Invalid Password Format"
@@ -153,38 +153,54 @@ expApp.post('/api/auth/register', async (req, res) => {
                     errors: `${errors}`
                 })
             }else{
+                try{
+                    //BUSINESS LOGICS:
 
-                //BUSINESS LOGICS:
-
-                //BUSINESS LOGIC 1. - UNIQUENESS!
-                //Below given, is a function validating a uniquq username:
-                async function checkIfUsernameExists(userData){
-                    try{
-                    const existingUser = await User.findOne({
-                        username: userData
-                    })
-
-                    return existingUser;
-                    }catch(error){
-                        res.status(500).json({
-                            "message":"Internal Server Error"
+                    //BUSINESS LOGIC 1. - UNIQUENESS!
+                    //BELOW GIVEN IS A FUNCTION THAT CHECKS IF USERNAME OR EMAIL ALREADY EXISTS IN THE DATABASE:
+                    async function findExistingUser(username,email){
+                        const existingUser = await User.findOne({
+                            $or: [
+                                {username: username},
+                                {email: email}
+                            ]
                         })
-                        console.log("Error: ", error);
+                        return existingUser;
                     }
-                }
-                if(await checkIfUsernameExists(cleanedData.username)){
-                    res.status(409).json({
-                        "message":"Username already exists",
-                        "status":"Conflict"
-                    });
-                }else{
-                    res.status(201).json({
-                        "message":"registration continues"
-                    });
+                    if(await findExistingUser(cleanedData.username,cleanedData.email)){
+                        res.status(409).json({
+                            "message":"User already exists",
+                            "status":"Conflict"
+                        });
+                    }else{
+
+                        //BUSINESS LOGIC 2. - DATE OF BIRTH/AGE VALIDATION:
+                        //BELOW FUNCTION CHECKS IF DATE IS VALID:
+                        function isValidDate(dateOfBirth){
+                            const date = new Date(dateOfBirth);
+                            const [year, month, day] =  dateOfBirth.split('-').map(Number);
+                            return date.getFullYear() === year && date.getMonth() === month-1 && date.getDate() === day;
+                        }
+                        if(!isValidDate(cleanedData.dateOfBirth)){
+                            res.status(400).json({
+                                "message":"Enter Date is Invalid",
+                                "status":"Bad Request"
+                            })
+                        }else{
+                            
+                        }
+                    }
+                }catch(error){
+                    res.status(500).json({
+                        "message":"Something went wrong",
+                        "status":"Internal Server Error",
+                        "error": error.message
+                    })
                 }
 
             }
-            
+
+          
 
         }
     }
@@ -194,7 +210,7 @@ expApp.post('/api/auth/register', async (req, res) => {
 
 
 
-//<---------------------------------------------------MONGODB SECTION------------------------------------------------------------->
+//<------------------------------------------------MONGODB SECTION------------------------------------------------------------->
 
 
 //USER CREATING FUNCTION
@@ -531,6 +547,8 @@ async function startServer() {
         })
 
     } catch (error) {
+        await mongoose.disconnect(process.env.MONGODB_URI);
+        console.log("MongoDB disconnected due to server start failure.");
         return console.error("Failed to start server:", error.message);
     }
 }
