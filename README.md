@@ -1,6 +1,10 @@
 # Learning-Node.js
 Hey, Welcome to my Node.js repository. Here, I will be making structured Code Snippets while learning how to use different npm modules to create efficient and Quality Tested APIs!
 
+# 03-09-2026
+
+I added password hashing using one of my colleagues npm module, that he developed using pbkfd2, it is a quite strong and very well architecture npm module that can be used to develop both Registration and Login module! The date validation layer is also added for verifying the given date is valid too!I learnt about the javascript data constructor and its date normalization quirk! and for now! our basic REGISTRATION API ENDPOINT IS DONE!
+
 # 31-08-2026
 
 In today's session, I understood about format validation layer, however date is validated twice, once for its format and twice for its validity! I will get it checked twice later! and with this our BUSINESS LOGIC BEGAN, starting off with username uniqueness, tested using sample data in our collections! though an error occured because of the previous MONGODB learning sessions, they altered the way MONGODB indexes were supposed to function! I meticulously dropped the incorrect collection! In the next session, I will be applying the business logic to all other fields as well and make it scalable too! TILL THEN PEACE OUT!

@@ -1,8 +1,10 @@
-require("dotenv").config();
-const express =  require("express");
+import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
 const expApp = express();
-const User = require('./Models/user')
-const mongoose = require("mongoose");
+import User from "./models/User.js";
+import mongoose from "mongoose";
+import { hash } from "ironpass";
 
 //<-----------------------------------------------------------EXPRESS SECTION---------------------------------------------------->
 
@@ -119,6 +121,7 @@ expApp.post('/api/auth/register', async (req, res) => {
                 "message":"User sent bad data",
                 "status":"Bad Request"
             }) 
+            res.end();
         }else{
             //FORMAT VALIDATION AND ERROR COLLECTION:
             const errors = [];
@@ -152,6 +155,7 @@ expApp.post('/api/auth/register', async (req, res) => {
                     status: "Bad Request",
                     errors: `${errors}`
                 })
+                res.end();
             }else{
                 try{
                     //BUSINESS LOGICS:
@@ -169,9 +173,10 @@ expApp.post('/api/auth/register', async (req, res) => {
                     }
                     if(await findExistingUser(cleanedData.username,cleanedData.email)){
                         res.status(409).json({
-                            "message":"User already exists",
+                            "message":"Username or email already exists",
                             "status":"Conflict"
                         });
+                        res.end();
                     }else{
 
                         //BUSINESS LOGIC 2. - DATE OF BIRTH/AGE VALIDATION:
@@ -186,16 +191,26 @@ expApp.post('/api/auth/register', async (req, res) => {
                                 "message":"Enter Date is Invalid",
                                 "status":"Bad Request"
                             })
+                            res.end();
                         }else{
-                            
+
+                            //BUSINESS LOGIC 3. - PASSWORD HASHING:
+                            const passwordHash = await hash(cleanedData.password);
+
+                            //BUSINESS LOGIC 4. - USER CREATION:
+                            const newUser = await createUser(cleanedData, passwordHash);
+                            res.status(201).json({
+                                message: "Account created successfully. Please proceed to login."
+                            });
+                            res.end();
                         }
                     }
                 }catch(error){
+                    console.error(error);
                     res.status(500).json({
-                        "message":"Something went wrong",
-                        "status":"Internal Server Error",
-                        "error": error.message
-                    })
+                        message: "Something went wrong",
+                        status: "Internal Server Error"
+                    });
                 }
 
             }
@@ -214,19 +229,17 @@ expApp.post('/api/auth/register', async (req, res) => {
 
 
 //USER CREATING FUNCTION
-async function createUser(userName, userEmail, userAge) {
-    try {
-        const user = new User({
-            name: userName,
-            email: userEmail,
-            age: userAge
-        })
-        const savedUser = await user.save();
-        console.log(`User ${savedUser.name} created successfully!`);
-        console.log(`User ID: ${savedUser._id}!`);
-    }catch(error){
-        console.error("Error creating user: ", error);
-    }
+async function createUser(cleanedData,passwordHash) {
+    const user = new User({
+        username: cleanedData.username,
+        firstName: cleanedData.firstName,
+        lastName: cleanedData.lastName,
+        email: cleanedData.email,
+        dateOfBirth: cleanedData.dateOfBirth,
+        passwordHash: passwordHash
+    })
+    const savedUser = await user.save();
+    return savedUser;
 
 }
 
@@ -251,7 +264,7 @@ async function getUserByEmail(userEmail) {
             email: userEmail
         })
         if(user !== null) {
-            console.log(`User with email -${userEmail} "Found": \n${user.name} \n${user.email} \n${user.age}`);
+            console.log(`User with email -${userEmail} "Found": \n${user.username} \n${user.email} \n${user.age}`);
         }else{
             console.log(`User with email -${userEmail} "Not found".`);
         }
