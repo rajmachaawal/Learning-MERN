@@ -3,7 +3,7 @@ Hey, Welcome to my Node.js repository. Here, I will be making structured Code Sn
 
 # 03-09-2026
 
-I added password hashing using one of my colleagues npm module, that he developed using pbkfd2, it is a quite strong and very well architecture npm module that can be used to develop both Registration and Login module! The date validation layer is also added for verifying the given date is valid too!I learnt about the javascript data constructor and its date normalization quirk! and for now! our basic REGISTRATION API ENDPOINT IS DONE! and the next API, I am eyeing to design is, LoginAPI! we will start learning it in the next session! because this session deserves to end with our completion of our first milestone! TILL THEN PEACE OUT!
+I added password hashing using one of my colleagues npm module, that he developed using pbkfd2, it is a quite strong and very well architecture npm module that can be used to develop both Registration and Login module! The date validation layer is also added for verifying the given date is valid too!I learnt about the javascript date constructor and its date normalization quirk! and for now! our basic REGISTRATION API ENDPOINT IS DONE! and the next API, I am eyeing to design is, LoginAPI! we will start learning it in the next session! because this session deserves to end with our completion of our first milestone! TILL THEN PEACE OUT!
 
 # 31-08-2026
 
