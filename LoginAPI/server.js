@@ -3,14 +3,16 @@ dotenv.config();
 import express from "express";
 const expApp = express();
 import mongoose from "mongoose";
-import { fieldsAreStringType, haveRequiredFields } from "./validation.js";
+import User from "./Models/user.model.js"
+import { fieldsAreStringType, haveRequiredFields, formatValidator } from "./validation.js";
+import { findExistingUser } from "./mongodb.js";
 
 
 //<------------------------------------EXPRESS SECTION----------------------------------------------------------------------->
 
 expApp.use(express.json());
 
-expApp.post("/api/auth/login", (req, res) => {
+expApp.post("/api/auth/login", async (req, res) => {
     try{
         //STRING TYPE FIELDS VALIDATION LAYER:
 
@@ -37,25 +39,40 @@ expApp.post("/api/auth/login", (req, res) => {
                 cleanedData[field] = rawData[field]?.trim();
             }
 
-            if(!haveRequiredFields(Object.keys(cleanedData))){
+            if(!haveRequiredFields(Object.keys(cleanedData),cleanedData)){
                 res.status(400).json({
                     "message": "User sent bad data",
                     "status": "Bad Request"
                 })
             }else{
                 //FORMAT VALIDATION & ERROR COLLECTION LAYER:
-                res.status(200).json({
-                    "message":"All fields are available"
-                })
+                let errors  = formatValidator(cleanedData);
+                if(errors.length > 0){
+                    res.status(400).json({
+                        "message":"User sent bad data",
+                        "errors":errors
+                    })
+                }else{
+                    //LOOKING UP FOR EXISTING ACCOUNT:
+                    const existingUser = await findExistingUser(cleanedData["username"],cleanedData["email"],User);
+                    if(!existingUser){
+                        res.status(404).json({
+                            "message":"Account Not Found"
+                        })
+                    }else{
+                        res.status(200).json({
+                            "message":"Account Found"
+                        })
+                    }
+                }
+                
             }
-            
-            
             
         }
         
     }catch(error) {
         console.error(error.message);
-        res.status(500,"API RESPONSE ERROR").json({
+        res.status(500).json({
             "message": "Internal Server Error"
         });
     }
@@ -68,6 +85,8 @@ async function startServer() {
         expApp.listen(process.env.PORT, () => {
             console.log(`Server is running on port ${process.env.PORT}`);
         })
+        await mongoose.connect(process.env.MONGODB_URI);
+        console.log("MongoDB connected!");
     }catch(error) {
         console.error(error.message);
     }

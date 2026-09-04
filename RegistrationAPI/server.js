@@ -144,7 +144,7 @@ expApp.post('/api/auth/register', async (req, res) => {
 
             //THIS IS ITERATION OVER OBJECT's PROPERTIES:
             for(const [field, rule] of Object.entries(formatRules)){
-               if(!rule.test(cleanedData[field])){
+               if(!rule.test(cleanedData[field].trim())){
                 errors.push(errorTypes[field]);
                } 
             }

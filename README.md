@@ -6,6 +6,18 @@ Here, I will be making structured code snippets while learning how to use differ
 
 ---
 
+# 04-09-2026
+
+In today's session, while developing login module, I realized how similar categorical modules like registration and login can have subtle and yet thin lines of separation in their logics! This realization occured during the validation layers!
+
+A bug popped up right out of no where and that too a sneaky one, because of unhandled edge cases! Fixed it right then! the endpoint of my current loginAPI works just fine! 
+
+Next, what remains in completion of this module is verification of login credentials, and authentication flow testing! 
+
+**TILL THEN, PEACE OUT! ✌️**
+
+---
+
 # 03-09-2026
 
 I added password hashing using an npm module developed by one of my colleagues, which uses PBKDF2 for password derivation and can be used for both Registration and Login modules.
