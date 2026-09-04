@@ -1,131 +1,31 @@
 # Learning-Node.js
-
-Hey, Welcome to my Node.js repository!
-
-Here, I will be making structured code snippets while learning how to use different Node.js and npm modules to build efficient and quality-tested APIs.
-
----
-
-# 04-09-2026
-
-So, developmental phase of the loginAPI begins today! currently I am at the format validation stage! but the key note here is, I am developing scalable logic by myself and there are minor convention mistakes only! feels like quite a long jump since my beginning! 
-
-And, a thing I want to share, I am learning with help of this consistent development method and then I will build applications that will matter! and to spill a secret here, my first individual project is WatchParty web application! 
-
-Till now, I understand 3 major modules required to build such a webApp - Registration, Login and Rooms! After loginAPI, we start the Rooms module, and by the next session I would have finished loginAPI!
-
-**TILL THEN, PEACE OUT! ✌️**
-
----
+Hey, Welcome to my Node.js repository. Here, I will be making structured Code Snippets while learning how to use different npm modules to create efficient and Quality Tested APIs!
 
 # 03-09-2026
 
-I added password hashing using an npm module developed by one of my colleagues, which uses PBKDF2 for password derivation and can be used for both Registration and Login modules.
-
-The date validation layer is also now added for verifying whether the given date is actually valid. Along the way, I learnt about the JavaScript `Date` constructor and its date normalization behaviour.
-
-And for now, our basic **REGISTRATION API ENDPOINT IS DONE!** 🎉
-
-The next API I am planning to design is **LoginAPI**. We will start learning it in the next session!
-
-This session deserves to end with the completion of our first milestone!
-
-**TILL THEN, PEACE OUT! ✌️**
-
----
+I added password hashing using one of my colleagues npm module, that he developed using pbkfd2, it is a quite strong and very well architecture npm module that can be used to develop both Registration and Login module! The date validation layer is also added for verifying the given date is valid too!I learnt about the javascript data constructor and its date normalization quirk! and for now! our basic REGISTRATION API ENDPOINT IS DONE! and the next API, I am eyeing to design is, LoginAPI! we will start learning it in the next session! because this session deserves to end with our completion of our first milestone! TILL THEN PEACE OUT!
 
 # 31-08-2026
 
-In today's session, I understood the format validation layer. However, I noticed that the date is currently validated twice — once for its format and once for its actual validity. I will revisit and refine this later.
-
-With this, our **BUSINESS LOGIC** began, starting with username uniqueness. I tested it using sample data in our collections.
-
-An error occurred because of changes made to the MongoDB collection during my previous learning sessions. I carefully identified and removed the incorrect collection/index setup.
-
-In the next session, I will be applying business logic to the remaining relevant fields and making the implementation scalable as well.
-
-**TILL THEN, PEACE OUT! ✌️**
-
----
+In today's session, I understood about format validation layer, however date is validated twice, once for its format and twice for its validity! I will get it checked twice later! and with this our BUSINESS LOGIC BEGAN, starting off with username uniqueness, tested using sample data in our collections! though an error occured because of the previous MONGODB learning sessions, they altered the way MONGODB indexes were supposed to function! I meticulously dropped the incorrect collection! In the next session, I will be applying the business logic to all other fields as well and make it scalable too! TILL THEN PEACE OUT!
 
 # 30-08-2026
 
-With today's session, I learnt how Express.js acts as a framework for Node.js and how much it simplifies backend development and routing.
-
-Currently, I know how to:
-
-- Set up an Express server
-- Understand what HTTP requests actually are
-- Work with HTTP status codes
-- Understand request and response headers
-- Retrieve data from `req` objects
-
-These are the checked boxes in my Express.js journey so far!
-
-**AND YEAH!** I also wrote a scalable field-validation layer for my Registration API.
-
-While developing it, I learnt how the **pipelining of validation layers** plays an important role in preventing unwanted bugs. I even preserved an earlier version of the code that demonstrates poor pipelining so I can compare it with the refined implementation later.
-
-I then refined the validation pipeline and tested it properly using **Thunder Client**.
-
-The next addition to the codebase will be the **format and value validation layer**, followed by **business logic**.
-
-**TILL THEN, PEACE OUT! ✌️**
-
----
+With today's session, I learnt about how express is a great framework of Node.js, and how much it eases backend development and routing!
+Currently, I know how to setup an express server and what HTTP requests actually are! HTTP status codes, req and res headers in express server, and how to retrieve data from req objects! These are the checkedboxes in my Express journey till now! AND YEAH! I also wrote a scalable field validation layer for my registration API! Next I will design another layer using Express! With mistakes I learnt about how pipeling of layers in validation layer plays such an important role to treat unwanted bugs! I even saved the code that signifies poor pipelining! and then I refined my pipeling on par production level! validated it with proper testing using THUNDER CLIENT! next addition in the codebase will be format and value validator! and then comes business LOGIC! TILL THEN PEACE OUT!
 
 # 26-08-2026
 
-I have understood how logical operators work in MongoDB so far!
-
-My goal is to understand MongoDB up to **schema refinement and query formation**, which will help me implement some basic features in my first individual project.
-
-Currently, I am refining my schema-designing abilities. In my last session, I designed my user schema.
-
-Next onboard is **Express.js! 🚀**
-
-**TILL THEN, PEACE OUT! ✌️**
-
----
+I have understood how logical operators work in MongoDB till now! my goal is to understand MongoDB till schema refinement and query formation that will help in adding some basic features to my first individual project! that I am eyeing to create! and currently I am refining my schema framing abilities! in my last session I designed my user schema! next onboard is Express.js! TILL THEN PEACE OUT!
 
 # 24-08-2026
 
-Since the last session, I have learnt how to create records of an entity in a collection and how to retrieve data using:
-
-- `find()`
-- `findOne()`
-- `findById()`
-
-I have also grasped the concept of using **comparison operators** to filter records based on numerical parameters.
-
-I have realised one thing:
-
-Storing a user's credentials securely in a database is quite far from where I started — but we will get there much sooner, at our own pace!
-
-**TILL NEXT TIME, PEACE OUT! ✌️**
-
----
+Since last session, I have learned about how to create a record of any entity in my collection! and how to find all, find one and find by using _id! I have also grasped the concept of using comparison operators for filtering records on the basis of numeric parameters! I have realised one thing that storing a user's credentials in database is quite far! But we will get there much sooner at our pace! TILL NEXT TIME! PEACE OUT!
 
 # 21-08-2026
 
-I started learning API creation, beginning with a **Registration API**.
-
-I used **Mongoose** to establish a connection with my MongoDB cluster.
-
-For the next session, I planned to model a user record using Mongoose and create a user record during registration using a username and password.
-
-The goal was also to learn how to securely store credentials using **hashed and salted passwords** rather than storing passwords directly.
-
-**TILL THEN, PEACE OUT! ✌️**
-
----
+I started learning API creation, starting with registration API, used mongoose to establish connection with MongoDB cluster! and for the next session plan on to modelling a user record with mongoose and a create a user record on registration with username and password! also to store username and password in hashed and salted form! TILL THEN PEACE OUT!
 
 # 20-08-2026
 
-Created a simple weather app that fetches weather data for a location using the Weatherstack API and returns the result in JSON format.
-
-This can later be reused while building more advanced weather applications using **MERN** or traditional **HTML/CSS/JavaScript** web applications.
-
-I am planning to build a proper frontend for one in the future using **HTML/CSS or React!**
-
-**TILL THEN, PEACE OUT! ✌️**
+Created a simple weather app that fetches weather data of a location from weatherstack free API and returns in JSON format. This can be reused again in making advanced weather apps in MERN or HTML, CSS based web applications. I am planning on to make one using HTML,CSS or React in future!
