@@ -12,7 +12,7 @@ In today's session, while developing login module, I realized how similar catego
 
 A bug popped up right out of no where and that too a sneaky one, because of unhandled edge cases! Fixed it right then! the endpoint of my current loginAPI works just fine! 
 
-Next, what remains in completion of this module is verification of login credentials, and authentication flow testing! 
+I also implemented my colleague "krptonox"'s IRONPASS npm module here as well for credential authentication! Next, what remains is a final overall authentication testing and Regression! 
 
 **TILL THEN, PEACE OUT! ✌️**
 

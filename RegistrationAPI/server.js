@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 const expApp = express();
-import User from "./models/User.js";
+import User from "./Models/user.js";
 import mongoose from "mongoose";
 import { hash } from "ironpass";
 
@@ -555,8 +555,8 @@ async function startServer() {
         await mongoose.connect(process.env.MONGODB_URI);
         console.log("MongoDB connected!");
 
-        expApp.listen(4000,() => {
-            console.log("Server running on port 4000")
+        expApp.listen(4001,() => {
+            console.log("Server running on port 4001")
         })
 
     } catch (error) {

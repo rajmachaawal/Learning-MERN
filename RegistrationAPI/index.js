@@ -382,7 +382,7 @@ async function populateSampleUsers() {
             }
         ];
 
-        await User.insertMany(sampleUsers);
+        
 
         console.log("Sample users inserted successfully.");
     } catch (error) {

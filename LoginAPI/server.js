@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import User from "./Models/user.model.js"
 import { fieldsAreStringType, haveRequiredFields, formatValidator } from "./validation.js";
 import { findExistingUser } from "./mongodb.js";
+import { verifyPassword } from "ironpass"
 
 
 //<------------------------------------EXPRESS SECTION----------------------------------------------------------------------->
@@ -60,9 +61,20 @@ expApp.post("/api/auth/login", async (req, res) => {
                             "message":"Account Not Found"
                         })
                     }else{
-                        res.status(200).json({
-                            "message":"Account Found"
-                        })
+
+                        //PASSWORD VERIFICATION LAYER:
+                        const passwordHashVerification = await verifyPassword(cleanedData["password"],existingUser.passwordHash);
+                        if(!passwordHashVerification){
+                            res.status(401).json({
+                                "message":"Invalid Credentials",
+                                "status":"Unauthorized"
+                            })
+                        }else{
+                            res.status(200).json({
+                                "message":"User Login Successful",
+                                "status":"Authentication Successful"
+                            })
+                        }
                     }
                 }
                 
