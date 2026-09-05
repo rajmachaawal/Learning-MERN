@@ -6,6 +6,18 @@ Here, I will be making structured code snippets while learning how to use differ
 
 ---
 
+# 05-09-2026
+
+Well, today's sessions felt like lectures out of a Backend/Security Engineering coursebook!But it all cleared up as I connected the little pieces of it! bit by bit! It all made sense, how authentication,  validaiton and authorization are both different, and have a specific reponsibility, of maintaining isolation, integrity and validity!
+
+Today's sessions were hard focused on theoritical concepts of cryptography,stateless and stateful authentication! In consequential lectures we will apply them to our  architecture!
+
+AND, one note, the loginAPI is not still finished! if I am learning it this time, I am going to do it whole-heartedly!
+
+**TILL THEN, PEACE OUT! ✌️**
+
+---
+
 # 04-09-2026
 
 In today's session, while developing login module, I realized how similar categorical modules like registration and login can have subtle and yet thin lines of separation in their logics! This realization occured during the validation layers!

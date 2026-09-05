@@ -6,7 +6,9 @@ import mongoose from "mongoose";
 import User from "./Models/user.model.js"
 import { fieldsAreStringType, haveRequiredFields, formatValidator } from "./validation.js";
 import { findExistingUser } from "./mongodb.js";
-import { verifyPassword } from "ironpass"
+import { verifyPassword } from "ironpass";
+import { SignJWT, jwtVerify } from "jose";
+import { createAccessToken } from "./jwt.js";
 
 
 //<------------------------------------EXPRESS SECTION----------------------------------------------------------------------->
@@ -57,8 +59,8 @@ expApp.post("/api/auth/login", async (req, res) => {
                     //LOOKING UP FOR EXISTING ACCOUNT:
                     const existingUser = await findExistingUser(cleanedData["username"],cleanedData["email"],User);
                     if(!existingUser){
-                        res.status(404).json({
-                            "message":"Account Not Found"
+                        res.status(401).json({
+                            "message":"Invalid Credentials"
                         })
                     }else{
 
@@ -70,10 +72,15 @@ expApp.post("/api/auth/login", async (req, res) => {
                                 "status":"Unauthorized"
                             })
                         }else{
+                            //JWT ISSUANCE:
+                            const userJWT = await createAccessToken((existingUser._id).toString());
+                            console.log(userJWT);
+
                             res.status(200).json({
-                                "message":"User Login Successful",
+                                "message":"JWT issued",
                                 "status":"Authentication Successful"
                             })
+                            
                         }
                     }
                 }
