@@ -1,13 +1,12 @@
-import { SignJWT } from "jose";
+import { jwtVerify, SignJWT } from "jose";
+
+
+
 
 //FUNCTION THAT ISSUES A JWT:
-async function createAccessToken(userId){
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-
-    const alg = 'HS256';
-
+async function createAccessToken(userId,secret){
     const userJWT  = await new SignJWT({sub:userId})
-    .setProtectedHeader({alg})
+    .setProtectedHeader({alg : ['HS256']})
     .setIssuedAt()
     .setExpirationTime('12h')
     .sign(secret)
@@ -15,4 +14,10 @@ async function createAccessToken(userId){
     return userJWT;
 };
 
-export {createAccessToken};
+//FUNCTION THAT VERIFIES A RECIEVED JWT:
+async function verifyAccessToken(token,secret){
+    const {payload,protectedHeader} = await jwtVerify(token,secret,{alg:['HS256']});
+    return payload.sub;
+}
+
+export {createAccessToken, verifyAccessToken};

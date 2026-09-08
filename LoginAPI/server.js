@@ -8,7 +8,7 @@ import { fieldsAreStringType, haveRequiredFields, formatValidator } from "./vali
 import { findExistingUser } from "./mongodb.js";
 import { verifyPassword } from "ironpass";
 import { SignJWT, jwtVerify } from "jose";
-import { createAccessToken } from "./jwt.js";
+import { createAccessToken, verifyAccessToken } from "./jwt.js";
 
 
 //<------------------------------------EXPRESS SECTION----------------------------------------------------------------------->
@@ -72,14 +72,21 @@ expApp.post("/api/auth/login", async (req, res) => {
                                 "status":"Unauthorized"
                             })
                         }else{
+                            //AUTHENTICATION APPROVAL LAYER:
+                            const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+
                             //JWT ISSUANCE:
                             const userJWT = await createAccessToken((existingUser._id).toString());
-                            console.log(userJWT);
+
+                            //JWT VERIFICATION:
+                            const verifiedUserId = await verifyAccessToken(userJWT);
+                            console.log(verifiedUserId);
+
 
                             res.status(200).json({
                                 "message":"JWT issued",
                                 "status":"Authentication Successful"
-                            })
+                            });
                             
                         }
                     }
