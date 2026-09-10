@@ -7,23 +7,38 @@ import User from "./Models/user.model.js"
 import { fieldsAreStringType, haveRequiredFields, formatValidator } from "./validation.js";
 import { findExistingUser } from "./mongodb.js";
 import { verifyPassword } from "ironpass";
-import { SignJWT, jwtVerify } from "jose";
 import { createAccessToken, verifyAccessToken } from "./jwt.js";
-
+import { authMiddleware } from "./Middlewares/authMiddleware.js";
+import './Constants/constants.js'
 
 //<------------------------------------EXPRESS SECTION----------------------------------------------------------------------->
 
 expApp.use(express.json());
 
+
+//TEMPORARY AUTH TEST ROUTE:
+expApp.get(
+    "/test-auth",
+    authMiddleware,
+    (req, res) => {
+        // protected resource
+        res.status(200).json({
+            "message":"received"
+        })
+    }
+);
+
+
+
 expApp.post("/api/auth/login", async (req, res) => {
     try{
         //STRING TYPE FIELDS VALIDATION LAYER:
-
+        
         //DATA RECEPTION:
         const rawData = req.body;
 
         const stringFields =  Object.keys(rawData);
-
+        
         if(fieldsAreStringType(stringFields, rawData)){
             res.status(400).json({
                 "message": "User sent bad data",
@@ -31,9 +46,9 @@ expApp.post("/api/auth/login", async (req, res) => {
             })
             res.end();
         }else{
-
+            
             //MISSING FIELDS VALIDATION LAYER:
-
+            
             //DATA CLEANING:
             let cleanedData = rawData;
             for(const field of Object.keys(rawData)){
@@ -41,7 +56,7 @@ expApp.post("/api/auth/login", async (req, res) => {
                 if(field === "password") continue;
                 cleanedData[field] = rawData[field]?.trim();
             }
-
+            
             if(!haveRequiredFields(Object.keys(cleanedData),cleanedData)){
                 res.status(400).json({
                     "message": "User sent bad data",
@@ -63,7 +78,7 @@ expApp.post("/api/auth/login", async (req, res) => {
                             "message":"Invalid Credentials"
                         })
                     }else{
-
+                        
                         //PASSWORD VERIFICATION LAYER:
                         const passwordHashVerification = await verifyPassword(cleanedData["password"],existingUser.passwordHash);
                         if(!passwordHashVerification){
@@ -72,23 +87,27 @@ expApp.post("/api/auth/login", async (req, res) => {
                                 "status":"Unauthorized"
                             })
                         }else{
-                            //AUTHENTICATION APPROVAL LAYER:
-                            const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-
-                            //JWT ISSUANCE:
-                            const userJWT = await createAccessToken((existingUser._id).toString());
-
-                            //JWT VERIFICATION:
-                            const verifiedUserId = await verifyAccessToken(userJWT);
-                            console.log(verifiedUserId);
-
-
-                            res.status(200).json({
-                                "message":"JWT issued",
-                                "status":"Authentication Successful"
-                            });
-                            
-                        }
+                            //JWT BEGINS!
+                            const alg = 'HS256';
+                            const secret = new TextEncoder().encode(process.env.JWT_SECRET)
+                            const userJWT = await createAccessToken(existingUser._id.toString(),secret,alg);
+                             
+                            //JWT TAMPERING TEST:
+                            // const parts = userJWT.split('.');
+                            // const payload = JSON.parse(
+                                //     Buffer.from(parts[1], "base64url").toString()
+                                // );
+                                // payload.sub = 'USER_X';
+                                // const tamperedpayload = Buffer.from(JSON.stringify(payload)).toString('base64url');
+                                
+                                // const tamperedJWT = [parts[0],tamperedpayload,parts[2]].join('.');
+                                
+                                res.status(200).json({
+                                    "message":"JWT issued",
+                                    "status":"Authentication Successful"
+                                });
+                                
+                            }
                     }
                 }
                 

@@ -6,6 +6,18 @@ Here, I will be making structured code snippets while learning how to use differ
 
 ---
 
+# 10-09-2026
+
+Quite a lot time flew by, not much progress made! Because of longer college hours and poor health! But everything is back to where it was! And intensive development and learning has began again!
+
+In today's session, I learnt about JWT's crucial points where it flexes its powers! And for now middleware is under construction! So the, protected routes can be provided for user requests!
+
+Next, I will be creating the middlewares and implementing them in routes, which itself is a major checkpoint for this learning repository!
+
+**TILL THEN, PEACE OUT! ✌️**
+
+---
+
 # 05-09-2026
 
 Well, today's sessions felt like lectures out of a Backend/Security Engineering coursebook!But it all cleared up as I connected the little pieces of it! bit by bit! It all made sense, how authentication,  validaiton and authorization are both different, and have a specific reponsibility, of maintaining isolation, integrity and validity!

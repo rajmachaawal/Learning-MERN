@@ -1,23 +1,26 @@
-import { jwtVerify, SignJWT } from "jose";
+import { SignJWT, jwtVerify } from "jose";
 
-
-
-
-//FUNCTION THAT ISSUES A JWT:
-async function createAccessToken(userId,secret){
-    const userJWT  = await new SignJWT({sub:userId})
-    .setProtectedHeader({alg : ['HS256']})
-    .setIssuedAt()
-    .setExpirationTime('12h')
-    .sign(secret)
+async function createAccessToken(userId, secret, alg) {
+    const userJWT = await new SignJWT({
+        sub: userId
+    })
+        .setProtectedHeader({ alg })
+        .setIssuedAt()
+        .setExpirationTime("0s")
+        .sign(secret);
 
     return userJWT;
-};
+}
 
-//FUNCTION THAT VERIFIES A RECIEVED JWT:
-async function verifyAccessToken(token,secret){
-    const {payload,protectedHeader} = await jwtVerify(token,secret,{alg:['HS256']});
+async function verifyAccessToken(token, secret, [alg]) {
+    const { payload, protectedHeader } = await jwtVerify(
+        token,
+        secret,
+        { algorithms: [alg] }
+    );
+
     return payload.sub;
 }
 
-export {createAccessToken, verifyAccessToken};
+
+export {createAccessToken,verifyAccessToken}
