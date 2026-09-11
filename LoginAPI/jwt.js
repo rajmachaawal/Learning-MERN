@@ -1,4 +1,10 @@
 import { SignJWT, jwtVerify } from "jose";
+const alg = "HS256";
+
+function getJwtSecret() {
+    return new TextEncoder().encode(process.env.JWT_SECRET);
+}
+
 
 async function createAccessToken(userId, secret, alg) {
     const userJWT = await new SignJWT({
@@ -6,21 +12,21 @@ async function createAccessToken(userId, secret, alg) {
     })
         .setProtectedHeader({ alg })
         .setIssuedAt()
-        .setExpirationTime("0s")
+        .setExpirationTime("12h")
         .sign(secret);
 
     return userJWT;
 }
 
-async function verifyAccessToken(token, secret, [alg]) {
+async function verifyAccessToken(token, secret) {
     const { payload, protectedHeader } = await jwtVerify(
         token,
         secret,
-        { algorithms: [alg] }
+        { algorithms: ["HS256"] }
     );
 
-    return payload.sub;
+    return {payload, protectedHeader};
 }
 
 
-export {createAccessToken,verifyAccessToken}
+export {createAccessToken,verifyAccessToken, getJwtSecret, alg}

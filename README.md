@@ -6,6 +6,18 @@ Here, I will be making structured code snippets while learning how to use differ
 
 ---
 
+# 11-09-2026
+
+Hmm! Today, I understood that the way I was handling auth requests was not production-level! and how authorization needs to be handled in production environment!
+
+The complete authentication Middleware implemented, as well as the flow itself contains ability to handle invalid authentication requests efficiently!
+
+Now, next I have to learn designing rooms, and as well as how users join and leave it! 
+
+**TILL THEN, PEACE OUT! ✌️**
+
+---
+
 # 10-09-2026
 
 Quite a lot time flew by, not much progress made! Because of longer college hours and poor health! But everything is back to where it was! And intensive development and learning has began again!

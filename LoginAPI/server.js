@@ -7,9 +7,8 @@ import User from "./Models/user.model.js"
 import { fieldsAreStringType, haveRequiredFields, formatValidator } from "./validation.js";
 import { findExistingUser } from "./mongodb.js";
 import { verifyPassword } from "ironpass";
-import { createAccessToken, verifyAccessToken } from "./jwt.js";
+import { createAccessToken, verifyAccessToken, alg, getJwtSecret} from "./jwt.js";
 import { authMiddleware } from "./Middlewares/authMiddleware.js";
-import './Constants/constants.js'
 
 //<------------------------------------EXPRESS SECTION----------------------------------------------------------------------->
 
@@ -22,11 +21,20 @@ expApp.get(
     authMiddleware,
     (req, res) => {
         // protected resource
+        console.log(req.user);
         res.status(200).json({
-            "message":"received"
+            "message":"reached protected route!"
         })
+        
     }
 );
+//ACTUAL ROUTES:
+expApp.get("/watchparty/rooms/levitating-sheep-unicorn", authMiddleware, (req, res) => {
+    console.log(req.user);
+    res.status(200).json({
+        "message":"reached room levitating-sheep-unicorn"
+    })
+});
 
 
 
@@ -88,9 +96,8 @@ expApp.post("/api/auth/login", async (req, res) => {
                             })
                         }else{
                             //JWT BEGINS!
-                            const alg = 'HS256';
-                            const secret = new TextEncoder().encode(process.env.JWT_SECRET)
-                            const userJWT = await createAccessToken(existingUser._id.toString(),secret,alg);
+                            const userJWT  = await createAccessToken(existingUser._id.toString(),getJwtSecret(),alg);
+                            console.log(userJWT);
                              
                             //JWT TAMPERING TEST:
                             // const parts = userJWT.split('.');
