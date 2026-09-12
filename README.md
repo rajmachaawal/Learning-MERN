@@ -6,6 +6,18 @@ Here, I will be making structured code snippets while learning how to use differ
 
 ---
 
+# 12-09-2026
+
+Today, I designed our room schema and modelled it with proper key constraints! Unfortunately,  I didn't me the goal of room creation and join! 
+
+BUT, ROOMID generation is done and later will ease and reduce time in room creation step!
+
+NEXT, I will definitely write the Room Creation and Room Join logic!
+
+**TILL THEN, PEACE OUT! ✌️**
+
+---
+
 # 11-09-2026
 
 Hmm! Today, I understood that the way I was handling auth requests was not production-level! and how authorization needs to be handled in production environment!

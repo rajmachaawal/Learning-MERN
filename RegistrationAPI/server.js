@@ -549,13 +549,13 @@ async function getUsersByRegex(regex,caseSensitivity) {
 //<--------------------------------------------------------SERVER INITIATION SECTION---------------------------------------------->
 
 
-//MONGODB CONNECTION
+//SERVER INITIATOR:
 async function startServer() {
     try {
         await mongoose.connect(process.env.MONGODB_URI);
         console.log("MongoDB connected!");
 
-        expApp.listen(4001,() => {
+        expApp.listen(process.env.PORT,() => {
             console.log("Server running on port 4001")
         })
 
