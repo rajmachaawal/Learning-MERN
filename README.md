@@ -6,13 +6,13 @@ Here, I will be making structured code snippets while learning how to use differ
 
 ---
 
-# 12-09-2026
+# 13-09-2026 (12:55 AM)
 
-Today, I designed our room schema and modelled it with proper key constraints! Unfortunately,  I didn't me the goal of room creation and join! 
+Today, I designed our room schema and modelled it with proper key constraints! Quite late it is, but finally I did what I had to! added the room creation logic! But proper user response is yet to be constructed!
 
-BUT, ROOMID generation is done and later will ease and reduce time in room creation step!
+But, this room creation logic will come so handy in future for sure! And the way I am building these APIs! these can directly be used into my other projects as well! My speed is increasing day by day! Like it took me less than hour to build LoginAPI from scratch!
 
-NEXT, I will definitely write the Room Creation and Room Join logic!
+In next sessions, I will definitely write the Room Join logic!
 
 **TILL THEN, PEACE OUT! ✌️**
 

@@ -6,6 +6,7 @@ async function findExistingUser(username,email,User){
             {email: email}
         ]
     })
+    
     return existingUser;
 }
 

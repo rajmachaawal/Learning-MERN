@@ -1,37 +1,76 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import Room from './Models/room.model.js';
-dotenv.config();
+import {Room, User} from './Models/room.model.js'
+
+
+//FUNCTION LOOKING FOR EXISTIN USER IN MONGODB COLLECTIONS:
+async function findExistingUser(username,email,User){
+    const existingUser = await User.findOne({
+        $or: [
+            {username: username},
+            {email: email}
+        ]
+    })
+    
+    return existingUser;
+}
+
+
+//ROOM EXPIRE TIME GENERATOR:
 
 function getExpiryTime(){
+
     const utcTime = new Date();
+
     const roomLimit = 8*60*60*1000;
+
     const expiryTime = new Date(utcTime.getTime() + roomLimit);
+
     return expiryTime;
+
 }
 
+//RANDOM RoomID GENERATOR:
 
 const getRoomId = () => {
+
     //5 LETTER GENERATION
+
     const letters  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
     let fiveLetters = "";
+
     for(let i=0; i<5; i++){
+
         const randomIndex = Math.floor(Math.random()*letters.length);
+
         fiveLetters += letters[randomIndex];
+
     }
+
     //5 DIGIT NUMBER GENERATION:
+
     const digits = "0123456789";
+
     let fiveDigits = "";
+
     for(let i=0; i<5; i++){
+
         const randomIndex = Math.floor(Math.random()*digits.length);
+
         fiveDigits += digits[randomIndex];
+
     }
+
     //ASSEMBLING:
+
     const roomId = fiveLetters+"-"+fiveDigits;
+
     return roomId;
+
 }
 
 
+
+//UNIQUE ROOMID VALIDATOR:
 async function uniqueRoomGenerator(){
     try {
         let generatedRoomId = "";
@@ -48,30 +87,23 @@ async function uniqueRoomGenerator(){
         return console.error("Failed to start server:", error.message);
     }
 }
-
-
-//ROOM CREATING FUNCTION:
+//ROOM DOCUMENT CREATION & SAVE:
 async function createRoom(hostId){
     try{
-        await mongoose.connect(process.env.MONGODB_URI);
-        console.log("MongoDB connected!");
-
-        let roomId = getRoomId();
-        let expiresAt = getExpiryTime();
-        
+        let generatedRoomId = await uniqueRoomGenerator();
+        let generatedExpTime = getExpiryTime();
         const newRoom = new Room({
-            roomId: roomId,
-            hostId: new Object('ighbjwiboibodghshgsgjlhi'),
-            expiresAt: expiresAt
+            hostId:hostId,
+            roomId:generatedRoomId,
+            expiresAt: generatedExpTime
         })
-
         const createdRoom = await newRoom.save();
         return createdRoom;
-
     }catch(error){
-        console.error(error.message)
+        console.error("Room Creation Error:", error.message);
     }
 }
 
-const Room1 = await createRoom('fdjbzdnbzdgnlzjdpgon');
-console.log(Room1);
+
+
+export { findExistingUser, uniqueRoomGenerator, createRoom, getExpiryTime, getRoomId };
