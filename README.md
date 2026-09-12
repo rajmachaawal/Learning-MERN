@@ -2,7 +2,10 @@
 
 Hey, Welcome to my Node.js repository!
 
-Here, I will be making structured code snippets while learning how to use different Node.js and npm modules to build efficient and quality-tested APIs.
+Here, I will be making structured codebases/APIs/modules that are tested for production-level requirements!
+And, the tech I will be using will be Javascript(Node.js),npm modules that are more efficient and development friendly!
+I have decided that the error-handling and response will not be compromised anyhow! 
+DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 ---
 
