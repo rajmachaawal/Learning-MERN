@@ -3,8 +3,8 @@ import express from 'express';
 const expApp = express();
 import dotenv from 'dotenv';
 dotenv.config()
-import {fieldsAreStringType, haveRequiredFields, formatValidator} from './validation.js'
-import { findExistingUser, uniqueRoomGenerator, createRoom, getExpiryTime, getRoomId } from './mongodb.js'
+import {fieldsAreStringType, haveRequiredFields, formatValidator, checkRoomExpiry} from './validation.js'
+import { findExistingUser, uniqueRoomGenerator, createRoom, getExpiryTime, getRoomId, findRequestedRoom} from './mongodb.js'
 import {Room, User} from './Models/room.model.js'
 import { verifyPassword } from "ironpass";
 import {createAccessToken,verifyAccessToken, getJwtSecret, alg} from './jwt.js'
@@ -120,9 +120,43 @@ expApp.post('/watchparty/auth/login', async (req, res)=>{
 expApp.post('/watchparty/newRoom',authMiddleware, async (req, res, next)=>{
     try{
         const newRoom = await createRoom(req.user);
+        res.status(201).json({
+            "message":`Room Created at URL: /watchparty/rooms/${newRoom.roomId}`,
+            "status": "CREATED"
+        })
     }catch(error){
         console.error(error)
     }
+})
+
+//Access Room Route:
+expApp.get('/watchparty/rooms/:roomId',async (req, res)=>{
+    try{
+        const requestedRoom = req.params.roomId;
+        const foundRoom = await findRequestedRoom(requestedRoom);
+
+        //ROOM EXISTENCE CHECK:
+        if(foundRoom == null){
+            res.status(404).json({
+                "message":"Room Not Found"
+            })
+        }else{
+            if(!checkRoomExpiry(foundRoom.expiresAt)){
+                //ROOM EXPIRED RESPONSE:
+                res.status(410).json({
+                    "message":"Room Time Limit Reached: Create New Room!",
+                    "status":"Gone"
+                })
+            }else{
+                //FURTHER EVALUATION:
+                res.send("endpoint reached");
+            }
+        }
+        
+    }catch(error){
+        console.error(error.message);
+    }
+
 })
 
 //<-------------------------------------------------MONGODB SECTION------------------------------------------------->

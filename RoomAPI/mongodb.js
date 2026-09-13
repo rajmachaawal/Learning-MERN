@@ -104,6 +104,13 @@ async function createRoom(hostId){
     }
 }
 
+async function findRequestedRoom(roomId){
+    const foundRoom = await Room.findOne({
+        roomId: roomId
+    })
+    return foundRoom;
+}
 
 
-export { findExistingUser, uniqueRoomGenerator, createRoom, getExpiryTime, getRoomId };
+
+export { findExistingUser, uniqueRoomGenerator, createRoom, getExpiryTime, getRoomId, findRequestedRoom };

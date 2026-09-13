@@ -47,8 +47,17 @@ const formatValidator = (cleanedData) => {
 }
 
 
+//FUNCTION VALIDATING ROOM EXPIRATION:
+const checkRoomExpiry = (expTime) => {
+    const currentTime = new Date(Date.now());
+    const expiryTime = new Date(expTime);
+    const leftTime = expiryTime.getTime() - currentTime.getTime();
+    return leftTime > 0;
+}
+
+
 
 
 
 //EXPORTS:
-export {fieldsAreStringType, haveRequiredFields, formatValidator}
+export {fieldsAreStringType, haveRequiredFields, formatValidator, checkRoomExpiry}
