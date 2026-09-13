@@ -4,7 +4,7 @@ const expApp = express();
 import dotenv from 'dotenv';
 dotenv.config()
 import {fieldsAreStringType, haveRequiredFields, formatValidator, checkRoomExpiry} from './validation.js'
-import { findExistingUser, uniqueRoomGenerator, createRoom, getExpiryTime, getRoomId, findRequestedRoom} from './mongodb.js'
+import { findExistingUser, uniqueRoomGenerator, createRoom, getExpiryTime, getRoomId, findRequestedRoom, deleteRoom } from './mongodb.js'
 import {Room, User} from './Models/room.model.js'
 import { verifyPassword } from "ironpass";
 import {createAccessToken,verifyAccessToken, getJwtSecret, alg} from './jwt.js'
@@ -129,8 +129,8 @@ expApp.post('/watchparty/newRoom',authMiddleware, async (req, res, next)=>{
     }
 })
 
-//Access Room Route:
-expApp.get('/watchparty/rooms/:roomId',async (req, res)=>{
+//Access Room Route(PROTECTED):
+expApp.get('/watchparty/rooms/:roomId', authMiddleware,async (req, res)=>{
     try{
         const requestedRoom = req.params.roomId;
         const foundRoom = await findRequestedRoom(requestedRoom);
@@ -148,16 +148,72 @@ expApp.get('/watchparty/rooms/:roomId',async (req, res)=>{
                     "status":"Gone"
                 })
             }else{
-                //FURTHER EVALUATION:
-                res.send("endpoint reached");
+                //RESPONSE OBJECT=
+                const roomResponse = {
+                    roomInfo : {
+                        roomId: foundRoom.roomId
+                    },
+                    hostInfo:{
+                        username: foundRoom.hostId.username,
+                        firstName: foundRoom.hostId.firstName
+                    },
+                    expiresAt: foundRoom.expiresAt
+                
+                }
+                res.status(200).json(roomResponse);
             }
         }
         
     }catch(error){
         console.error(error.message);
+        res.status(500).json({
+            "message":"Something went wrong",
+            "status":"Internal Server Error"
+        })
     }
 
 })
+
+
+
+//Room Deletion Route(Protected):
+expApp.delete('/watchparty/rooms/:roomId', authMiddleware, async(req, res, next)=>{
+    try{
+        //DELETION LOGIC
+        const requestedRoom = req.params.roomId;
+        const foundRoom = await findRequestedRoom(requestedRoom);
+
+        //ROOM EXISTENCE CHECK:
+        if(!foundRoom){
+            res.status(404).json({
+                "message":"Room Not Found",
+                "status":"Not Found"
+            })
+        }else{
+            //REQUEST FROM HOST VALIDATION:
+            if(!(req.user === foundRoom.hostId._id.toString())){
+                res.status(403).json({
+                    "message":"You are not the host",
+                    "status":"Forbidden"
+                })
+            }else{
+                //ROOM DELETION LOGIC:
+                const deletedRoom = await deleteRoom(requestedRoom);
+                res.status(204).json({
+                    "message":"Room Deleted: Proceed to Home Page",
+                    "status":"No Content"
+                })
+            }
+        }
+    }catch(error){
+        console.error(error.message);
+        res.status(500).json({
+            "message":"Something went wrong",
+            "status":"Internal Server Error"
+        })
+    }
+})
+
 
 //<-------------------------------------------------MONGODB SECTION------------------------------------------------->
 

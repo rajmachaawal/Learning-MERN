@@ -107,10 +107,18 @@ async function createRoom(hostId){
 async function findRequestedRoom(roomId){
     const foundRoom = await Room.findOne({
         roomId: roomId
-    })
+    }).populate("hostId","username firstName"); 
     return foundRoom;
+}
+
+async function deleteRoom(roomId){
+    const deletedRoom = await Room.deleteOne({
+        roomId: roomId
+    })
+    return deletedRoom
+
 }
 
 
 
-export { findExistingUser, uniqueRoomGenerator, createRoom, getExpiryTime, getRoomId, findRequestedRoom };
+export { findExistingUser, uniqueRoomGenerator, createRoom, getExpiryTime, getRoomId, findRequestedRoom, deleteRoom };

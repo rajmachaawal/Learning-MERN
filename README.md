@@ -11,11 +11,11 @@ DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 # 13-09-2026 
 
-Today, I designed our room schema and modelled it with proper key constraints! Quite late it is, but finally I did what I had to! added the room creation logic! Added a proper response! Further evaluation for role based access is pending!!
+Summarizing all the sessions did today, I built Room Creation,Room Access, and Room Deletion Routes! Role based access was implemented in all protected routes!
 
-But, this room creation logic will come so handy in future for sure! And the way I am building these APIs! these can directly be used into my other projects as well! My speed is increasing day by day! Like it took me less than hour to build LoginAPI from scratch!
+A new mongoose method I encountered during today's session!.populate(), such a ease of access method, in extracting all or selective info from another table! without executing a secondary query!
 
-In next sessions, I will definitely write Role Based Access in rooms!
+Next, I will be designing actual Room! or maybe a little bit of frontend!
 
 **TILL THEN, PEACE OUT! ✌️**
 
