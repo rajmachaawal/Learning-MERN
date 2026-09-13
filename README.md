@@ -11,7 +11,7 @@ DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 # 13-09-2026 
 
-Today, I designed our room schema and modelled it with proper key constraints! Quite late it is, but finally I did what I had to! added the room creation logic! Added a proper response! Further evaluatio for role based access is pending!!
+Today, I designed our room schema and modelled it with proper key constraints! Quite late it is, but finally I did what I had to! added the room creation logic! Added a proper response! Further evaluation for role based access is pending!!
 
 But, this room creation logic will come so handy in future for sure! And the way I am building these APIs! these can directly be used into my other projects as well! My speed is increasing day by day! Like it took me less than hour to build LoginAPI from scratch!
 
@@ -19,19 +19,6 @@ In next sessions, I will definitely write Role Based Access in rooms!
 
 **TILL THEN, PEACE OUT! ✌️**
 
----
-
-# 13-09-2026 (12:55 AM)
-
-Today, I designed our room schema and modelled it with proper key constraints! Quite late it is, but finally I did what I had to! added the room creation logic! But proper user response is yet to be constructed!
-
-But, this room creation logic will come so handy in future for sure! And the way I am building these APIs! these can directly be used into my other projects as well! My speed is increasing day by day! Like it took me less than hour to build LoginAPI from scratch!
-
-In next sessions, I will definitely write the Room Join logic!
-
-**TILL THEN, PEACE OUT! ✌️**
-
----
 
 # 11-09-2026
 
