@@ -9,6 +9,18 @@ DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 ---
 
+# 14-09-2026 
+
+It's 11:48 in the night when I committing today's progress and calling it a day for now! Today, we finally completed the room lifecycle i.e - CREATE-USE-EXPIRE-DELETE!
+
+A new MongoDB feature was used for automated database record cleanup! And with this being finished, we started proceeding for the bigger guns - WebSocket!
+
+Understood the basics of WebSocket, how it is different, and what problem it overcomes! I tried establishing a connection and did it! But it is too late to connect my first client to the server, SOOOOOOOOOOOO!
+
+**TILL THEN, PEACE OUT! ✌️**
+
+---
+
 # 13-09-2026 
 
 Summarizing all the sessions did today, I built Room Creation,Room Access, and Room Deletion Routes! Role based access was implemented in all protected routes!
@@ -19,6 +31,7 @@ Next, I will be designing actual Room! or maybe a little bit of frontend!
 
 **TILL THEN, PEACE OUT! ✌️**
 
+---
 
 # 11-09-2026
 

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import http from "http"
 import express from 'express';
 const expApp = express();
 import dotenv from 'dotenv';
@@ -10,6 +11,7 @@ import {Room, User} from './Models/room.model.js'
 import { verifyPassword } from "ironpass";
 import {createAccessToken, verifyAccessToken, getJwtSecret, alg} from './jwt.js'
 import { authMiddleware } from './Middlewares/authMiddleware.js';
+import { WebSocketServer } from 'ws';
 
 //<-------------------------------------------------EXPRESS SECTION------------------------------------------------->
 
@@ -464,11 +466,17 @@ async function startServer(){
     await mongoose.connect(process.env.MONGODB_URI)
     console.log("MONGODB CONNECTION SUCCESSFULL");
 
-    expApp.listen(process.env.PORT,() => {
-        console.log("EXPRESS SERVER RUNNING AT LOCALHOST:5000")
+    //NODE HTTP SERVER:
+    const server = http.createServer(expApp);
+    server.listen(process.env.PORT,()=>{
+        console.log("NODE HTTP SERVER RUNNING AT LOCALHOST:5000")
     })
 
+    //UPGRADE CONNECTION TO WEBSOCKET:
+    const webSocketServer = new WebSocketServer({server})
 
+    //LISTENING EVENT:
+    webSocketServer.addListener("connection",(client)=>{});
 
     }catch(error){
         console.log("SERVER START ERROR");
