@@ -47,7 +47,8 @@ const roomSchema  = new mongoose.Schema({
         ref:'User'
     },
     expiresAt:{
-        type:Date
+        type:Date,
+        expires: 0
     }
 });
 
