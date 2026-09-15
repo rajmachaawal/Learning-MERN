@@ -11,6 +11,18 @@ DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 # 14-09-2026 
 
+So,we began developing something that is much higher than what we have developed till now! Now comes the Real-Time Communication System OR Chat Module!Surely, this will challenge my adaptability to think in different kind of systems! Its trippy but not impossible to understand!
+
+I chose "ws" library for first learning how to develop this module! and then implement it using Socket.IO! For now I have learnt about establishing connection between client and server, and also performed message transfer! 
+
+Next, I intend to learn Broadcasting and Room-Scoped Broadcasting!
+
+**TILL THEN, PEACE OUT! ✌️**
+
+---
+
+# 14-09-2026 
+
 It's 11:48 in the night when I committing today's progress and calling it a day for now! Today, we finally completed the room lifecycle i.e - CREATE-USE-EXPIRE-DELETE!
 
 A new MongoDB feature was used for automated database record cleanup! And with this being finished, we started proceeding for the bigger guns - WebSocket!

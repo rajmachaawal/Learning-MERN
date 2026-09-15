@@ -475,8 +475,11 @@ async function startServer(){
     //UPGRADE CONNECTION TO WEBSOCKET:
     const webSocketServer = new WebSocketServer({server})
 
-    //LISTENING EVENT:
-    webSocketServer.addListener("connection",(client)=>{});
+    //SERVER LISTENING FOR CONNECTION REQUEST EVENT:
+    webSocketServer.addListener("connection",(client)=>{
+        console.log("Connection Established!");
+
+    });
 
     }catch(error){
         console.log("SERVER START ERROR");
