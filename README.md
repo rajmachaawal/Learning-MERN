@@ -9,6 +9,20 @@ DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 ---
 
+# 15-09-2026 
+
+As previously stated, today's session was highly focused around  broadcasting and room-scoped broadcasting! But, a problem occured- See, being exposed to these kind of system for the first time, feels overwhelming! So, I started Websocket again from the beginning!
+
+There is no question that  I wouldn't understand these kinds of system! On the contrary, it is factually correct to say - I am allowed to learn with these mistakes at this stage only! Learning phase is the best phase to make mistakes and making any number of mistakes is no humiliation! But learning is crucial! - And after that I reminded msyelf about it and started over with clarity of what my goal is! 
+
+So, yeah I can say that, I started over but this time everything made sense, and I even wrote the whole code by myself without looking up to anything!
+
+But the learning ain't finished yet! next will be presence/membership state management!
+
+**TILL THEN, PEACE OUT! ✌️**
+
+---
+
 # 14-09-2026 
 
 So,we began developing something that is much higher than what we have developed till now! Now comes the Real-Time Communication System OR Chat Module!Surely, this will challenge my adaptability to think in different kind of systems! Its trippy but not impossible to understand!

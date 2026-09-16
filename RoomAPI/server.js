@@ -375,6 +375,8 @@ expApp.get('/watchparty/rooms/:roomId', authMiddleware,async (req, res)=>{
                 
                 }
                 res.status(200).json(roomResponse);
+
+
             }
         }
         
@@ -472,15 +474,48 @@ async function startServer(){
         console.log("NODE HTTP SERVER RUNNING AT LOCALHOST:5000")
     })
 
-    //UPGRADE CONNECTION TO WEBSOCKET:
-    const webSocketServer = new WebSocketServer({server})
+    //CHAT CONNECTION SECTION:
+    const webSocketServer = new WebSocketServer({server});
 
-    //SERVER LISTENING FOR CONNECTION REQUEST EVENT:
     webSocketServer.addListener("connection",(client)=>{
-        console.log("Connection Established!");
+        console.log(`connected`);
 
-    });
+        //CLIENT MESSAGE LISTENER (IN BUFFER):
+        client.addListener("message",(message)=>{
+            //JOIN REQUEST PARSING:
+            const messageParts = (message.toString()).split(':');
+            if(messageParts[0] === 'JOIN'){
+                //ATTACHING ROOM ID:
+                client.roomId = messageParts[1];
+            }else if(messageParts[0] === "CHAT"){
+                //ROOM-SCOPED BROADCASTING:
+                const broadcastSet = webSocketServer.clients;
+                for(let receivers of broadcastSet){
+                    //BROADCASTING LOGIC:
+                    if(client.roomId === receivers.roomId){
+                        if(receivers.readyState === WebSocket.OPEN){
+                            receivers.send(message);
+                        }
+                    }
+                }
+                console.log("message sent");
+            }else{
+                //DO NOTHING
+            }
+            //MESSAGE SENDING TO CLIENT:
+            // client.send("Hello Client",()=>{
+            //     console.log("message sent")
+            // });
+        })
 
+        client.addListener("close",(code, reason)=>{
+            console.log("client disconnected");
+            console.log(code);
+            console.log(reason.toString());
+        })
+    })
+
+    
     }catch(error){
         console.log("SERVER START ERROR");
         console.error(error);
