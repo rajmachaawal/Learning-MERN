@@ -9,6 +9,8 @@ DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 ---
 
+# THIS REPO IS ON EXAM STANDBY, FOR MY EXAMS ARE ONGOING!
+
 # 15-09-2026 
 
 As previously stated, today's session was highly focused around  broadcasting and room-scoped broadcasting! But, a problem occured- See, being exposed to these kind of system for the first time, feels overwhelming! So, I started Websocket again from the beginning!
