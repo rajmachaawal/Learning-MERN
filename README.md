@@ -13,6 +13,8 @@ DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 For now, my exams are ongoing! So I will be empty committing this readme! So that my consistency of returning backto  where I need to be, doesn't get fades away!
 
+And I am revisiting my methodologies, that I used in this project and what variations come around when the requirements are different!
+
 # 15-09-2026 
 
 As previously stated, today's session was highly focused around  broadcasting and room-scoped broadcasting! But, a problem occured- See, being exposed to these kind of system for the first time, feels overwhelming! So, I started Websocket again from the beginning!
