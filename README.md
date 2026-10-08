@@ -9,11 +9,17 @@ DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 ---
 
-# THIS REPO IS ON EXAM STANDBY, FOR MY EXAMS ARE ONGOING!
+# 08-10-2026
 
-For now, my exams are ongoing! So I will be empty committing this readme! So that my consistency of returning backto  where I need to be, doesn't get fades away!
+So, the status now is that, exams are over but I am really behind my development goals! But I'd not rush rather I would do is recapitalise on what I've done so far! 
 
-And I am revisiting my methodologies, that I used in this project and what variations come around when the requirements are different!
+I understood presence/membership concepts and implemented them! first I blindly the user for its requests joining a room! but only for initial developmental stages!
+
+Evidently, I implemented room validation prior room joining and presence/membership changes of a room! 
+
+Next, I will be implementing proper authentication and authorization flows or joining a room! simply rephrasing - Is this user allowed to join this room? (according to its URL!)
+
+---
 
 # 15-09-2026 
 

@@ -18,7 +18,4 @@ clientA.addListener("open",()=>{
         console.log("message sent!")
     })
 
-    //CLIENT CONNECTION CLOSE:
-    clientA.close(1000,"Normal Closure");
-
 })

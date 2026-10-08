@@ -478,15 +478,36 @@ async function startServer(){
     const webSocketServer = new WebSocketServer({server});
 
     webSocketServer.addListener("connection",(client)=>{
-        console.log(`connected`);
 
         //CLIENT MESSAGE LISTENER (IN BUFFER):
-        client.addListener("message",(message)=>{
+        client.addListener("message",async (message)=>{
             //JOIN REQUEST PARSING:
             const messageParts = (message.toString()).split(':');
             if(messageParts[0] === 'JOIN'){
-                //ATTACHING ROOM ID:
-                client.roomId = messageParts[1];
+                //ROOM VALIDATION:
+                const requestedRoomId = messageParts[1];
+                const foundRoom = await findRequestedRoom(requestedRoomId);
+                if(foundRoom === null){
+                    client.send("Requested room not found!")
+                    return;
+                }else{
+                    //ATTACHING ROOMID TO CLIENT OBJECT:
+                    client.roomId = requestedRoomId;
+                }
+                //ROOM MEMBERS COUNTER:
+                let roomMembersCount = 0;
+                for(let receivers of webSocketServer.clients){
+                    if(client.roomId === receivers.roomId){
+                        roomMembersCount++
+                    }
+                }
+                //JOIN NOTIFICATION:
+                for (let receivers of webSocketServer.clients){
+                    if (client.roomId === receivers.roomId && receivers.readyState === WebSocket.OPEN){
+                        receivers.send("Member joined the room!")
+                    }
+                }
+                
             }else if(messageParts[0] === "CHAT"){
                 //ROOM-SCOPED BROADCASTING:
                 const broadcastSet = webSocketServer.clients;
@@ -508,10 +529,26 @@ async function startServer(){
             // });
         })
 
+
         client.addListener("close",(code, reason)=>{
             console.log("client disconnected");
             console.log(code);
             console.log(reason.toString());
+
+            //LEAVE NOTIFICATION:
+            for(let receivers of webSocketServer.clients){
+                if(client.roomId === receivers.roomId && receivers.readyState === WebSocket.OPEN){
+                    receivers.send("Member left the room!")
+                }
+            }
+
+            //ROOM MEMBERS COUNTER:
+            let roomMembersCount = 0;
+            for(let receivers of webSocketServer.clients){
+                if(client.roomId === receivers.roomId){
+                    roomMembersCount++;
+                }
+            }
         })
     })
 
