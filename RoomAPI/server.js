@@ -474,8 +474,48 @@ async function startServer(){
         console.log("NODE HTTP SERVER RUNNING AT LOCALHOST:5000")
     })
 
+    //SERVER LISTENING FOR UPGRADE EVENT:
+    server.on("upgrade", async (req, socket, head)=>{
+        //AUTHORIZATION EXTRACTION:
+        const authorization = req.headers.authorization;
+
+        //AUTHORIZATION VALIDATION:
+        if(!authorization){
+            socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n");
+            socket.destroy();
+            return;
+        }
+
+        //TOKEN SEPARATION:
+        const authParts = authorization.split(' ');
+        if(authParts.length !== 2 || authParts[0] !== "Bearer" || !authParts[1]){
+           socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n");
+           socket.destroy();
+           return;
+        }
+
+        const token = authParts[1];
+
+        try{
+            //VERIFICATION:
+            const {payload, protectedHeader} = await verifyAccessToken(token, getJwtSecret());
+
+            //UPGRADE HANDLER:
+            webSocketServer.handleUpgrade(req, socket, head, (ws)=>{
+                //UPGRADE SUCCESSFUL:
+                webSocketServer.emit("connection", ws, req);
+            })
+
+        }catch(err){
+            console.error("ERROR IN UPGRADE REQUEST: ",err.message);
+            socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n");
+            socket.destroy();
+            return;
+        }
+    })
+
     //CHAT CONNECTION SECTION:
-    const webSocketServer = new WebSocketServer({server});
+    const webSocketServer = new WebSocketServer({ noServer: true});
 
     webSocketServer.addListener("connection",(client)=>{
 

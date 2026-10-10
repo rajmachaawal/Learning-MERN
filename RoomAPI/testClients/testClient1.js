@@ -11,11 +11,11 @@ clientA.addListener("open",()=>{
         console.log(message.toString());
     })
     //CLIENT SENDING MESSAGE:
-    clientA.send("JOIN:UIOSG-34928",()=>{
-        console.log("join request sent!");
-    })
-    clientA.send("CHAT:Hello B and C!",()=>{
-        console.log("message sent!")
-    })
+    // clientA.send("JOIN:UIOSG-34928",()=>{
+    //     console.log("join request sent!");
+    // })
+    // clientA.send("CHAT:Hello B and C!",()=>{
+    //     console.log("message sent!")
+    // })
 
 })

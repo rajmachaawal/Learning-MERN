@@ -9,15 +9,30 @@ DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 ---
 
+# 10-10-2026
+
+Today's sessions were focused on three particular refinements of our CHAT System architecture:
+1. Listening for upgrade requests and handling them manually
+2. Including JWT verification before establishing an OPEN connection
+3. Proper response messages for both Success and Failure cases of JWT verification
+
+One new methodology I witnessed in today's sessions - underlying socket responses during handling of upgrade event!
+
+**TILL THEN, PEACE OUT! ✌️**
+
+---
+
 # 08-10-2026
 
 So, the status now is that, exams are over but I am really behind my development goals! But I'd not rush rather I would do is recapitalise on what I've done so far! 
 
-I understood presence/membership concepts and implemented them! first I blindly the user for its requests joining a room! but only for initial developmental stages!
+I understood presence/membership concepts and implemented them upon joining and leaving of a member! first I blindly the user for its requests joining a room! but only for initial developmental stages!
 
 Evidently, I implemented room validation prior room joining and presence/membership changes of a room! 
 
 Next, I will be implementing proper authentication and authorization flows or joining a room! simply rephrasing - Is this user allowed to join this room? (according to its URL!)
+
+**TILL THEN, PEACE OUT! ✌️**
 
 ---
 
