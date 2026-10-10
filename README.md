@@ -24,7 +24,7 @@ One new methodology I witnessed in today's sessions - underlying socket response
 
 # 08-10-2026
 
-So, the status now is that, exams are over but I am really behind my development goals! But I'd not rush rather I would do is recapitalise on what I've done so far! 
+So, the status now is that, exams are over but I am really behind my development goals! But I'd not rush it, rather what I would do is recapitalise on what I've done so far! 
 
 I understood presence/membership concepts and implemented them upon joining and leaving of a member! first I blindly the user for its requests joining a room! but only for initial developmental stages!
 
