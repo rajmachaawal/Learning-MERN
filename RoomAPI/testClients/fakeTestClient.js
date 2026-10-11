@@ -4,21 +4,28 @@ const fakeClient = new WebSocket(
     "ws://localhost:5000",
     {
         headers:{
-            authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2YTliMDY2NzZjMjYzMjkwNWU1YTlkOWEiLCJpYXQiOjE3OTE2Mjg0MzgsImV4cCI6MTc5MTY3MTYzOH0.FqO0HROggGVMwJjWlNHMoU54NCE9zkkGLQjmEDLNnRE"
+            authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2YTliMDY2NzZjMjYzMjkwNWU1YTlkOWEiLCJpYXQiOjE3OTE3Mjg4NTUsImV4cCI6MTc5MTc3MjA1NX0.eYEvwTERZcloe4gZa3NL3UnNSiY4737BIhUvW1bkj9g"
         }
     }
 )
+function waitForMessage(client) {
+    return new Promise((resolve) => {
+        client.once("message", (data) => {
+            resolve(data.toString());
+        });
+    });
+}
 
-//CLIENT CONNECTION OPEN (readyState = 1):
-fakeClient.addListener("open",()=>{
+fakeClient.addListener("open", async () => {
     console.log("connection OPEN!");
-    
-    //CLIENT LISTENING FOR MESSAGE
-    fakeClient.addListener("message",(message)=>{
-        console.log(message.toString());
-    })
-    //CLIENT SENDING MESSAGE:
-    // fakeClient.send("JOIN:WRLEW-19932",()=>{
-    //     console.log("join request sent!");
-    // })
-})
+
+    fakeClient.send("JOIN:VFHQO-70531");
+
+    const firstResponse = await waitForMessage(fakeClient);
+    console.log(firstResponse);
+
+    fakeClient.send("JOIN:VFHQO-70530");
+
+    const secondResponse = await waitForMessage(fakeClient);
+    console.log(secondResponse);
+});

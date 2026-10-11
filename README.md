@@ -9,6 +9,18 @@ DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 ---
 
+# 11-10-2026
+
+Implemented JWT authentication during the WebSocket upgrade handshake and added rejection handling for missing, malformed, and invalid authentication credentials. Attached the verified user identity through payload.sub to each authenticated WebSocket connection.
+
+Integrated room-existence and room-expiration validation before allowing clients to join rooms. Implemented duplicate-join protection using client.roomId and client.joinInProgress to prevent repeated membership requests and handle concurrent join attempts during asynchronous room validation. Tested recovery after an invalid-room request, confirming that the same WebSocket connection can subsequently join a valid room.
+
+Next, continue with room membership and presence by verifying join and leave notifications, member counts, and disconnect behavior across multiple connected clients. After validating these behaviors, proceed toward implementing room-scoped chat and synchronized media streaming.
+
+**TILL THEN, PEACE OUT! ✌️**
+
+---
+
 # 10-10-2026
 
 Today's sessions were focused on three particular refinements of our CHAT System architecture:

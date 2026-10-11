@@ -503,6 +503,9 @@ async function startServer(){
             //UPGRADE HANDLER:
             webSocketServer.handleUpgrade(req, socket, head, (ws)=>{
                 //UPGRADE SUCCESSFUL:
+                console.log("UPGRADE SUCCESSFUL");
+                //ATTACHING USER IDENTITY TO webSocketServer OBJECT:
+                ws.userId =  payload.sub;
                 webSocketServer.emit("connection", ws, req);
             })
 
@@ -514,7 +517,7 @@ async function startServer(){
         }
     })
 
-    //CHAT CONNECTION SECTION:
+//<-------------------------------------------CHAT CONNECTION SECTION:------------------------------------------------------->
     const webSocketServer = new WebSocketServer({ noServer: true});
 
     webSocketServer.addListener("connection",(client)=>{
@@ -524,15 +527,34 @@ async function startServer(){
             //JOIN REQUEST PARSING:
             const messageParts = (message.toString()).split(':');
             if(messageParts[0] === 'JOIN'){
+                //DUPLICATE MEMBERSHIP HANDLER:
+                if(client.roomId || client.joinInProgress){
+                    client.send("You have already joined the room!");
+                    return;
+                }
+                client.joinInProgress =  true;
+                
                 //ROOM VALIDATION:
                 const requestedRoomId = messageParts[1];
                 const foundRoom = await findRequestedRoom(requestedRoomId);
                 if(foundRoom === null){
                     client.send("Requested room not found!")
+                    client.joinInProgress =  false;
                     return;
                 }else{
-                    //ATTACHING ROOMID TO CLIENT OBJECT:
-                    client.roomId = requestedRoomId;
+                    
+                    //ROOM EXPIRATION CHECK:
+                    if(!checkRoomExpiry(foundRoom.expiresAt)){
+                        client.send("Requested room has expired!");
+                        client.joinInProgress =  false;
+                        return;
+                    }else{
+
+                        //ATTACHING ROOMID TO CLIENT OBJECT:
+                        client.roomId = requestedRoomId;
+                        client.joinInProgress = false;
+
+                    }
                 }
                 //ROOM MEMBERS COUNTER:
                 let roomMembersCount = 0;
@@ -547,7 +569,6 @@ async function startServer(){
                         receivers.send("Member joined the room!")
                     }
                 }
-                
             }else if(messageParts[0] === "CHAT"){
                 //ROOM-SCOPED BROADCASTING:
                 const broadcastSet = webSocketServer.clients;
@@ -566,7 +587,7 @@ async function startServer(){
             //MESSAGE SENDING TO CLIENT:
             // client.send("Hello Client",()=>{
             //     console.log("message sent")
-            // });
+            // s});
         })
 
 
