@@ -19,13 +19,7 @@ function waitForMessage(client) {
 fakeClient.addListener("open", async () => {
     console.log("connection OPEN!");
 
-    fakeClient.send("JOIN:VFHQO-70531");
-
-    const firstResponse = await waitForMessage(fakeClient);
-    console.log(firstResponse);
-
-    fakeClient.send("JOIN:VFHQO-70530");
-
-    const secondResponse = await waitForMessage(fakeClient);
-    console.log(secondResponse);
+    fakeClient.send("JOIN:VFHQO-70531",()=>{
+        console.log("Join Request Sent!");
+    });
 });

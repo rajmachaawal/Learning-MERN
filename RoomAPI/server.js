@@ -569,6 +569,7 @@ async function startServer(){
                         receivers.send("Member joined the room!")
                     }
                 }
+                console.log(`Current Members in Room: ${roomMembersCount}`);
             }else if(messageParts[0] === "CHAT"){
                 //ROOM-SCOPED BROADCASTING:
                 const broadcastSet = webSocketServer.clients;
