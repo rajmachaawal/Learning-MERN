@@ -518,15 +518,37 @@ async function startServer(){
     })
 
 //<-------------------------------------------CHAT CONNECTION SECTION:------------------------------------------------------->
-    const webSocketServer = new WebSocketServer({ noServer: true});
+    const webSocketServer = new WebSocketServer({
+        noServer: true,
+        maxPayload: 64*1024 //64KiB
+    });
+
 
     webSocketServer.addListener("connection",(client)=>{
 
         //CLIENT MESSAGE LISTENER (IN BUFFER):
         client.addListener("message",async (message)=>{
-            //JOIN REQUEST PARSING:
-            const messageParts = (message.toString()).split(':');
-            if(messageParts[0] === 'JOIN'){
+            //JSON REQUEST PARSING:
+           let request;
+           try{
+            request = JSON.parse(message.toString());
+           }catch(err){
+            client.send("Invalid JSON Format");
+            console.log(err.message);
+            return;
+           }
+           if(request.type == 'JOIN'){
+
+            //PAYLOAD SIZE VALIDATION:
+            const payloadSize = Buffer.byteLength(JSON.stringify(request))
+            if (payloadSize > 64 * 1024) {
+                client.send(JSON.stringify({
+                    type: "ERROR",
+                    message: "Payload exceeds the 64 KiB limit."
+                }));
+                client.close(1009, "Payload too large");
+                return;
+            }
                 //DUPLICATE MEMBERSHIP HANDLER:
                 if(client.roomId || client.joinInProgress){
                     client.send("You have already joined the room!");
@@ -535,7 +557,7 @@ async function startServer(){
                 client.joinInProgress =  true;
                 
                 //ROOM VALIDATION:
-                const requestedRoomId = messageParts[1];
+                const requestedRoomId = request.roomId;
                 const foundRoom = await findRequestedRoom(requestedRoomId);
                 if(foundRoom === null){
                     client.send("Requested room not found!")
@@ -569,29 +591,59 @@ async function startServer(){
                         receivers.send("Member joined the room!")
                     }
                 }
-                console.log(`Current Members in Room: ${roomMembersCount}`);
-            }else if(messageParts[0] === "CHAT"){
-                //ROOM-SCOPED BROADCASTING:
-                const broadcastSet = webSocketServer.clients;
-                for(let receivers of broadcastSet){
-                    //BROADCASTING LOGIC:
-                    if(client.roomId === receivers.roomId){
-                        if(receivers.readyState === WebSocket.OPEN){
-                            receivers.send(message);
+            }else if(request.type == 'CHAT'){
+                try{
+                    //USER PRESENCE VALIDATION:
+                    if(!client.roomId){
+                        client.send("You are not in a room! Join a room first!");
+                        return;
+                    }
+                    //MESSAGE VALIDATION:
+                    if(!request.message || typeof request.message !== "string" || !request.message.trim()){
+                        client.send("Invalid message format!");
+                        return;
+                    }
+                    if(request.message.length > 2000){
+                       client.send("Message exceeds the 2000-character limit!");
+                       return; 
+                    }
+
+                    //SENDER IDENTITY ATTACHMENT:
+                    let message = {
+                        type:"CHAT",
+                        senderId: client.userId,
+                        message: request.message
+                    }
+                    //ROOM-SCOPED BROADCASTING:
+                    const broadcastSet = webSocketServer.clients;
+                    for(let receivers of broadcastSet){
+                        //BROADCASTING LOGIC:
+                        if(client.roomId === receivers.roomId){
+                            if(receivers.readyState === WebSocket.OPEN){
+                                receivers.send(JSON.stringify(message));
+                            }
                         }
                     }
+                    
+                }catch(err){
+                    
                 }
-                console.log("message sent");
             }else{
                 //DO NOTHING
             }
-            //MESSAGE SENDING TO CLIENT:
-            // client.send("Hello Client",()=>{
-            //     console.log("message sent")
-            // s});
+        })
+        
+        
+        //CONNECTION ERROR LISTENER:
+        client.addListener("error",(error)=>{
+            if(error.code === "WS_ERR_UNSUPPORTED_MESSAGE_LENGTH"){
+                client.send("Message too large. Please send a smaller message.")
+            }
+            console.error("Client error:", error.message, error.code);
         })
 
 
+        //CONNECTION CLOSE LISTENER:
         client.addListener("close",(code, reason)=>{
             console.log("client disconnected");
             console.log(code);
@@ -612,6 +664,7 @@ async function startServer(){
                 }
             }
         })
+
     })
 
     
