@@ -5,7 +5,7 @@ const client3 = new WebSocket(
     "ws://localhost:5000",
     {
         headers:{
-            authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2YTliMDY2NzZjMjYzMjkwNWU1YTlkOWEiLCJpYXQiOjE3OTE4MTUwODksImV4cCI6MTc5MTg1ODI4OX0.xIxDlm3EYeeo3k4BbqfX6uC25Lz89pR2wI_nc4mHkEM"
+            authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2YTliMDY2NzZjMjYzMjkwNWU1YTlkOWEiLCJpYXQiOjE3OTE4OTY3NDUsImV4cCI6MTc5MTkzOTk0NX0.GlzFm8SHwAG3t1EusksgbksuIKiidLm_FdQc88lW7So"
         }
     })
 

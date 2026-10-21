@@ -5,7 +5,7 @@ const client1 = new WebSocket(
     "ws://localhost:5000",
     {
         headers:{
-            authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2YTliMDY2NzZjMjYzMjkwNWU1YTlkOWEiLCJpYXQiOjE3OTE3OTM3NDIsImV4cCI6MTc5MTgzNjk0Mn0.hxsmz-TjMeLQpsgm3Uy-kdXIbuNxD5ARDOqRjvyPXkQ"
+            authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2YTliMDY2NzZjMjYzMjkwNWU1YTlkOWEiLCJpYXQiOjE3OTE4OTY3NDUsImV4cCI6MTc5MTkzOTk0NX0.GlzFm8SHwAG3t1EusksgbksuIKiidLm_FdQc88lW7So"
         }
     })
 
@@ -18,7 +18,7 @@ client1.addListener("open", async()=>{
     //CLIENT SENDING JOIN REQUEST:
     client1.send(JSON.stringify({
         type:"JOIN",
-        roomId:"JCYNX-18203"
+        roomId:"WMIOQ-63624"
     }),()=>{
         console.log("join request sent!");
     })
@@ -32,14 +32,12 @@ client1.addListener("open", async()=>{
         console.log(message.toString());
     })
 
-    const payload = "A".repeat(65535);
-
-
+    console.log("Actual Buffer Size:",Buffer.byteLength("A".repeat(65_537),'utf8'));
 
     //CLIENT SENDING MESSAGE:
     client1.send(JSON.stringify({
         type:"CHAT",
-        message:payload
+        message:"A".repeat(65_537)
     }),()=>{
         console.log("message sent!");
     })
@@ -47,6 +45,7 @@ client1.addListener("open", async()=>{
     //CONNECTION CLOSE LISTENER:
     client1.addListener("close", (code, reason) => {
         if(code === 1009){
+            console.log("Code:",code)
             console.log("Client closed due to message size limit exceeded.");
         }else{
             console.log(`Client closed with code: ${code}, reason: ${reason}`);
