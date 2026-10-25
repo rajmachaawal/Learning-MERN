@@ -11,6 +11,18 @@ DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 # 21-10-2026
 
+Today, we verified HTTP and WebSocket communication, displayed the server's message, and explored RTCPeerConnection, SDP offers, and RTCDataChannel.
+
+We learned the basics of WebRTC negotiation but found signaling-message broadcasting confusing, so we'll revisit it gradually.
+
+Tomorrow's topic: RTCDataChannel from the beginning, with a clear explanation, small code steps, and no rushing into signaling.
+
+**TILL THEN, PEACE OUT! ✌️**
+
+---
+
+# 21-10-2026
+
 Today, we created a basic WebRTC PoC server using Node.js, HTTP, and WebSocket signaling.  
 
 We learned how HTTP and WebSocket share a server; the current challenge is fixing the missing httpServer.listen() call and the HTML content-type header.
@@ -20,6 +32,7 @@ Next topic: verify browser-server communication and display the server message o
 **TILL THEN, PEACE OUT! ✌️**
 
 ---
+
 # 11-10-2026
 
 Implemented JSON-based WebSocket messaging, chat validation, a 2,000-character message limit, and authenticated sender identification using the verified JWT identity. Tested room-scoped broadcasting, malformed JSON handling, and message-validation edge cases. Configured maxPayload to 64 KiB for incoming WebSocket messages.

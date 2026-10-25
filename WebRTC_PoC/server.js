@@ -51,8 +51,18 @@ webSocketServer.on("connection",(socket)=>{
     }))
 
     socket.on("message",(data)=>{
-        console.log("Recieved:", data.toString());
+        //BROADCAST SET:
+        //BROADCAST OF DATA:
+        
     })
+    const clientSet =  webSocketServer.clients;
+    for(let receivers of clientSet){
+        if(client == receivers){
+            console.log(false);
+        }else{
+            console.log(true);
+        }
+    }    
 
     socket.on("close",()=>{
         console.log("A client disconnected!");
