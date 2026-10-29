@@ -9,6 +9,18 @@ DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 ---
 
+# 29-10-2026
+
+As I did earlier, I started understanding this new synchronized file streaming module implementation by starting over! And this is the reason it took longer time to reach here! But this time I grasped the very idea around this kind of system!
+
+Today, we moved a block forward by creating offer locally and sending it to our signaling server for further broadcasting! Even broadcasted it to other active clients! I've marked the reciever end of the client as my checkpoint for now!
+
+NEXT, we will completely design the offer-and-answer exchange system and establish the data channel for application data sharing!
+
+**TILL THEN, PEACE OUT! ✌️**
+
+---
+
 # 21-10-2026
 
 Today, we verified HTTP and WebSocket communication, displayed the server's message, and explored RTCPeerConnection, SDP offers, and RTCDataChannel.

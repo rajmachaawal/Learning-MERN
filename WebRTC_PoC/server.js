@@ -1,6 +1,7 @@
 import { WebSocketServer } from "ws";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
 
 const PORT = 3000;
 
@@ -41,31 +42,40 @@ httpServer.listen(PORT, () => {
 const webSocketServer = new WebSocketServer({
     server: httpServer
 })
-
+//SERVER LISTENING OR A BROWSER CONNECTION
 webSocketServer.on("connection",(socket)=>{
-    console.log("A client connected");
+    socket.clientId =  randomUUID()
+    console.log(`client: ${socket.clientId} connected`);
 
     socket.send(JSON.stringify({
         type:"message",
-        message:"Connected to WebRTC signaling server"
+        message:"Connected to WebSocket signaling server"
     }))
 
+    //SERVER LISTENING FOR BROWSER MESSAGE:
     socket.on("message",(data)=>{
-        //BROADCAST SET:
-        //BROADCAST OF DATA:
-        
-    })
-    const clientSet =  webSocketServer.clients;
-    for(let receivers of clientSet){
-        if(client == receivers){
-            console.log(false);
-        }else{
-            console.log(true);
+
+
+        //CONVERTING BUFFER MESSAGE TO STRING():
+        const debuffMessage = data.toString();
+        const message  = JSON.parse(debuffMessage);
+
+
+        //CHECKING MESSAGE TYPE:
+        if(message.type === "offer"){
+            
+            //OFFER BROADCASTING:
+            let clientSet =  webSocketServer.clients;
+            for(let recievers of clientSet){
+                if(socket.clientId != recievers.clientId && recievers.readyState === WebSocket.OPEN){
+                    recievers.send(JSON.stringify(message));
+                }
+            }
         }
-    }    
+    })
 
     socket.on("close",()=>{
-        console.log("A client disconnected!");
+        console.log(`client: ${socket.clientId} disconnected`);
     })
 })
 
