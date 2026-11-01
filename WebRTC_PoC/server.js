@@ -34,17 +34,15 @@ const httpServer = createServer(async(request, response)=>{
     response.end("Not Found");
 })
 
-httpServer.listen(PORT, () => {
-    console.log(`HTTP and WebSocket server running on port ${PORT}`);
-});
-
 
 const webSocketServer = new WebSocketServer({
     server: httpServer
 })
-//SERVER LISTENING OR A BROWSER CONNECTION
+//SERVER LISTENING FOR A BROWSER CONNECTION
 webSocketServer.on("connection",(socket)=>{
+
     socket.clientId =  randomUUID()
+    console.log("A client request received!")
     console.log(`client: ${socket.clientId} connected`);
 
     socket.send(JSON.stringify({
@@ -54,6 +52,7 @@ webSocketServer.on("connection",(socket)=>{
 
     //SERVER LISTENING FOR BROWSER MESSAGE:
     socket.on("message",(data)=>{
+        console.log(`client: ${socket.clientId} sent a message!`);
 
 
         //CONVERTING BUFFER MESSAGE TO STRING():
@@ -62,21 +61,30 @@ webSocketServer.on("connection",(socket)=>{
 
 
         //CHECKING MESSAGE TYPE:
+        console.log(`message type: ${message.type}`);
         if(message.type === "offer"){
             
             //OFFER BROADCASTING:
+            console.log(`Broadcasting offer from client: ${socket.clientId}`);
             let clientSet =  webSocketServer.clients;
-            for(let recievers of clientSet){
-                if(socket.clientId != recievers.clientId && recievers.readyState === WebSocket.OPEN){
-                    recievers.send(JSON.stringify(message));
+            for (const receiver of webSocketServer.clients) {
+
+                if (
+                    socket.clientId !== receiver.clientId &&
+                    receiver.readyState === WebSocket.OPEN
+                ) {
+                    receiver.send(JSON.stringify(message));
                 }
             }
         }
-    })
+    });
 
-    socket.on("close",()=>{
+    socket.on("close", () => {
         console.log(`client: ${socket.clientId} disconnected`);
-    })
-})
+    });
+});
 
-console.log(`Signaling server running at port ${PORT}`)
+// START SERVER
+httpServer.listen(PORT, () => {
+    console.log(`HTTP and WebSocket server running on port ${PORT}`);
+});

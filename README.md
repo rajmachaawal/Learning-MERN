@@ -9,6 +9,16 @@ DO CHECK OUT AND LEAVE A STAR ⭐ if you appreciate this!
 
 ---
 
+# 1-11-2026
+
+Today, we designed the offer-an-answer exchange! and I learnt about, ICE candidates and what they do in a peer-to-peer connection!
+
+Next, I complete the connection establishment and the data channel for data transmission!
+
+**TILL THEN, PEACE OUT! ✌️**
+
+---
+
 # 29-10-2026
 
 As I did earlier, I started understanding this new synchronized file streaming module implementation by starting over! And this is the reason it took longer time to reach here! But this time I grasped the very idea around this kind of system!
